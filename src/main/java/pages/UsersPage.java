@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import utils.LoggerUtils;
 
+import java.util.List;
+
 public class UsersPage extends CommonLoggedInPageClass {
 
     // Page Url Path
@@ -18,6 +20,7 @@ public class UsersPage extends CommonLoggedInPageClass {
     private final By searchButtonLocator = By.xpath("//div[@id='custom-search-input']//i[contains(@class, 'glyphicon-search')]");
     private final By addNewUserButtonLocator = By.xpath("//div[@class='row']//a[contains(@class,'btn-info') and contains(@onclick,'openAddUserModal')]");
     private final By usersTableLocator = By.id("users-table");
+    private final By usernameTableColumnLocator = By.xpath("//table[@id='users-table']//td[1]");
 
 
     public UsersPage(WebDriver driver) {
@@ -62,7 +65,7 @@ public class UsersPage extends CommonLoggedInPageClass {
         LoggerUtils.log.debug("typeSearchText(" + sSearchText + ")");
         Assert.assertTrue(isSearchTextFieldEnabled(), "Search Text Field is NOT enabled on Users Page!");
         WebElement searchTextField = getWebElement(searchTextFieldLocator);
-        searchTextField.sendKeys(sSearchText);
+        clearAndTypeTextToWebElement(searchTextField, sSearchText);
         return this;
     }
 
@@ -80,6 +83,7 @@ public class UsersPage extends CommonLoggedInPageClass {
         return getPlaceholderFromWebElement(searchTextField);
     }
 
+    // Search Button
     public boolean isSearchButtonDisplayed() {
         LoggerUtils.log.debug("isSearchButtonDisplayed()");
         return isWebElementDisplayed(searchButtonLocator);
@@ -126,4 +130,104 @@ public class UsersPage extends CommonLoggedInPageClass {
         AddUserDialogBox addUserDialogBox = new AddUserDialogBox(driver);
         return addUserDialogBox.verifyAddUserDialogBox();
     }
+
+    private String createXpathForUsernameInUsersTable(String sUsername) {
+        return "//table[@id='users-table']//td[1][text()='" + sUsername + "']";
+    }
+
+    public boolean isUserPresentInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isUserPresentInUsersTable(" + sUsername + ")");
+        String xPath = createXpathForUsernameInUsersTable(sUsername);
+        return isWebElementDisplayed(By.xpath(xPath));
+    }
+
+    private String createXpathForDisplayNameInUsersTable(String sUsername) {
+        return createXpathForUsernameInUsersTable(sUsername) + "/following-sibling::td[1]";
+    }
+
+    public String getDisplayNameInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("getDisplayNameInUsersTable(" + sUsername + ")");
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForDisplayNameInUsersTable(sUsername);
+        WebElement displayName = getWebElement(By.xpath(xPath));
+        return getTextFromWebElement(displayName);
+    }
+
+    private String createXpathForHeroCountInUsersTable(String sUsername) {
+        return createXpathForUsernameInUsersTable(sUsername) + "/following-sibling::td[2]";
+    }
+
+    private WebElement getHeroCountLinkWebElementInUsersTable(String sUsername) {
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForHeroCountInUsersTable(sUsername);
+        return getWebElement(By.xpath(xPath));
+    }
+
+    public String getHeroCountInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("getHeroCountInUsersTable(" + sUsername + ")");
+        WebElement heroCountLink = getHeroCountLinkWebElementInUsersTable(sUsername);
+        return getTextFromWebElement(heroCountLink);
+    }
+
+    public UserHeroesDialogBox clickHeroCountLinkInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("clickHeroCountLinkInUsersTable(" + sUsername + ")");
+        WebElement heroCountLink = getHeroCountLinkWebElementInUsersTable(sUsername);
+        clickOnWebElement(heroCountLink);
+        UserHeroesDialogBox userHeroesDialogBox = new UserHeroesDialogBox(driver);
+        return userHeroesDialogBox.verifyUserHeroesDialogBox();
+    }
+
+    private String createXpathForUserIconsInUsersTable(String sUsername) {
+        return createXpathForUsernameInUsersTable(sUsername) + "/following-sibling::td[3]";
+    }
+
+    private String createXpathForUserDetailsIconInUsersTable(String sUsername) {
+        return createXpathForUserIconsInUsersTable(sUsername) + "/a[contains(@class, 'btn-info')]";
+    }
+
+    public boolean isUserDetailsIconPresentInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isUserDetailsIconPresentInUsersTable(" + sUsername + ")");
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForUserDetailsIconInUsersTable(sUsername);
+        return isWebElementDisplayed(By.xpath(xPath));
+    }
+
+    private WebElement getUserDetailsIconWebElementInUsersTable(String sUsername) {
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForUserDetailsIconInUsersTable(sUsername);
+        return getWebElement(By.xpath(xPath));
+    }
+
+    public boolean isUserDetailsIconEnabledInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isUserDetailsIconEnabledInUsersTable(" + sUsername + ")");
+        WebElement userDetailsIcon = getUserDetailsIconWebElementInUsersTable(sUsername);
+        return isWebElementEnabled(userDetailsIcon);
+    }
+
+    public UserDetailsDialogBox clickUserDetailsIconInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("clickUserDetailsIconInUsersTable(" + sUsername + ")");
+        WebElement userDetailsIcon = getUserDetailsIconWebElementInUsersTable(sUsername);
+        clickOnWebElement(userDetailsIcon);
+        UserDetailsDialogBox userDetailsDialogBox = new UserDetailsDialogBox(driver);
+        return userDetailsDialogBox.verifyUserDetailsDialogBox();
+    }
+
+//    private int getTableRow(String sUsername) {
+//        List<WebElement> tableRows = getWebElements(usernameTableColumnLocator);
+//        for (int i = 0; i < tableRows.size(); i++) {
+//            if (getTextFromWebElement(tableRows.get(i)).equals(sUsername)) {
+//                return i+1;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    public String getDisplayName(String sUsername) {
+//        int index = getTableRow(sUsername);
+//        Assert.assertNotEquals(index, 0, "Username '" + sUsername + "' doesn't exist in Users table!");
+//        String xPath = "//table[@id='users-table']//tr[" + index + "]/td[2]";
+//        LoggerUtils.log.debug("Display Name XPATH: " + xPath);
+//        WebElement displayName = getWebElement(By.xpath(xPath));
+//        return getTextFromWebElement(displayName);
+//    }
 }

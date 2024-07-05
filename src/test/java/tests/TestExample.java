@@ -3,10 +3,7 @@ package tests;
 import data.Time;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
-import pages.AddUserDialogBox;
-import pages.LoginPage;
-import pages.UsersPage;
-import pages.WelcomePage;
+import pages.*;
 import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.PropertiesUtils;
@@ -64,6 +61,8 @@ public class TestExample extends BaseTestClass {
             LoginPage loginPage = new LoginPage(driver).open();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
+            loginPage.getPageTitle();
+
             // Type Username
             loginPage.typeUsername(sUsername);
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
@@ -75,6 +74,8 @@ public class TestExample extends BaseTestClass {
             // Click Login Button
             WelcomePage welcomePage = loginPage.clickLoginButton();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            welcomePage.getPageTitle();
 
             // Click Logout link
 
@@ -111,6 +112,56 @@ public class TestExample extends BaseTestClass {
 
             // Verify Error Message on Login Page
 
+
+        } finally {
+            quitDriver(driver);
+        }
+    }
+
+    @Test
+    public void searchUser() {
+        WebDriver driver = setUpDriver();
+        try {
+            String sUsername = PropertiesUtils.getAdminUsername();
+            String sPassword = PropertiesUtils.getAdminPassword();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Open Samsara
+            LoginPage loginPage = new LoginPage(driver).open();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Type Username
+            loginPage.typeUsername(sUsername);
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Type Password
+            loginPage.typePassword(sPassword);
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Click Login Button
+            WelcomePage welcomePage = loginPage.clickLoginButton();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Go to Users Page
+            UsersPage usersPage = welcomePage.clickUsersTab();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            LoggerUtils.log.info("Display Name: " + usersPage.getDisplayNameInUsersTable("finn"));
+            LoggerUtils.log.info("Hero Count: " + usersPage.getHeroCountInUsersTable("finn"));
+
+            // Open User Heroes Dialog Box
+            UserHeroesDialogBox userHeroesDialogBox = usersPage.clickHeroCountLinkInUsersTable("finn");
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            usersPage = userHeroesDialogBox.clickCloseButton();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Open User Details Dialog Box
+            UserDetailsDialogBox userDetailsDialogBox = usersPage.clickUserDetailsIconInUsersTable("finn");
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            usersPage = userDetailsDialogBox.clickCloseButton();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
         } finally {
             quitDriver(driver);

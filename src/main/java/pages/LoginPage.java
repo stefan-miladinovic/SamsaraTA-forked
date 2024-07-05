@@ -12,9 +12,12 @@ public class LoginPage extends CommonLoggedOutPageClass {
 
     private final String LOGIN_PAGE_URL = getPageUrl(PageUrlPaths.LOGIN_PAGE);
 
+    private final String loginBoxLocatorString = "div#loginbox";
     private final By usernameTextFieldLocator = By.id("username");
     private final By passwordTextFieldLocator = By.id("password");
-    private final By loginButtonLocator = By.xpath("//input[@type='submit']");
+    private final By loginButtonLocator = By.cssSelector(loginBoxLocatorString + " input.btn-primary");
+    private final By createAccountLinkLocator = By.cssSelector(loginBoxLocatorString + " a[href='" + PageUrlPaths.REGISTER_PAGE + "']");
+    private final By resetPasswordLinkLocator = By.cssSelector(loginBoxLocatorString + " a[href='" + PageUrlPaths.RESET_PASSWORD_PAGE + "']");
 
 //    @FindBy(id = "username")
 //    private WebElement usernameTextField;
@@ -173,5 +176,47 @@ public class LoginPage extends CommonLoggedOutPageClass {
             LoginPage loginPage = new LoginPage(driver);
             return (T) loginPage.verifyLoginPage();
         }
+    }
+
+    public boolean isCreateAccountLinkDisplayed() {
+        LoggerUtils.log.debug("isCreateAccountLinkDisplayed()");
+        return isWebElementDisplayed(createAccountLinkLocator);
+    }
+
+    public boolean isCreateAccountLinkEnabled() {
+        LoggerUtils.log.debug("isCreateAccountLinkEnabled()");
+        Assert.assertTrue(isCreateAccountLinkDisplayed(), "'Create Account' Link is NOT displayed on Login Page!");
+        WebElement createAccountLink = getWebElement(createAccountLinkLocator);
+        return isWebElementEnabled(createAccountLink);
+    }
+
+    public RegisterPage clickCreateAccountLink() {
+        LoggerUtils.log.debug("clickCreateAccountLink()");
+        Assert.assertTrue(isCreateAccountLinkEnabled(), "'Create Account' Link is NOT enabled on Login Page!");
+        WebElement createAccountLink = getWebElement(createAccountLinkLocator);
+        clickOnWebElement(createAccountLink);
+        RegisterPage registerPage = new RegisterPage(driver);
+        return registerPage.verifyRegisterPage();
+    }
+
+    public boolean isResetPasswordLinkDisplayed() {
+        LoggerUtils.log.debug("isResetPasswordLinkDisplayed()");
+        return isWebElementDisplayed(resetPasswordLinkLocator);
+    }
+
+    public boolean isResetPasswordLinkEnabled() {
+        LoggerUtils.log.debug("isResetPasswordLinkEnabled()");
+        Assert.assertTrue(isResetPasswordLinkDisplayed(), "'Reset Password' Link is NOT displayed on Login Page!");
+        WebElement resetPasswordLink = getWebElement(resetPasswordLinkLocator);
+        return isWebElementEnabled(resetPasswordLink);
+    }
+
+    public ResetPasswordPage clickResetPasswordLink() {
+        LoggerUtils.log.debug("clickResetPasswordLink()");
+        Assert.assertTrue(isResetPasswordLinkEnabled(), "'Reset Password' Link is NOT displayed on Login Page!");
+        WebElement resetPasswordLink = getWebElement(resetPasswordLinkLocator);
+        clickOnWebElement(resetPasswordLink);
+        ResetPasswordPage resetPasswordPage = new ResetPasswordPage(driver);
+        return resetPasswordPage.verifyResetPasswordPage();
     }
 }
