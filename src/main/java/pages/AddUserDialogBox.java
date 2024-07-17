@@ -19,7 +19,7 @@ public class AddUserDialogBox extends BasePageClass {
 
     public AddUserDialogBox verifyAddUserDialogBox() {
         LoggerUtils.log.debug("verifyAddUserDialogBox()");
-        Assert.assertTrue(isAddUserDialogBoxOpened(Time.TIME_SHORTER), "Add User DialogBox is NOT opened!");
+        Assert.assertTrue(isAddUserDialogBoxOpened(Time.TIME_SHORTER), "AddUser DialogBox is NOT opened!");
         return this;
     }
 
@@ -42,23 +42,23 @@ public class AddUserDialogBox extends BasePageClass {
 
     public boolean isCancelButtonEnabled() {
         LoggerUtils.log.debug("isCancelButtonEnabled()");
-        Assert.assertTrue(isCancelButtonDisplayed(), "Cancel Button is NOT displayed on Add User DialogBox!");
+        Assert.assertTrue(isCancelButtonDisplayed(), "Cancel Button is NOT displayed on AddUser DialogBox!");
         WebElement cancelButton = getWebElement(cancelButtonLocator);
         return isWebElementEnabled(cancelButton);
     }
 
     public String getCancelButtonTitle() {
         LoggerUtils.log.debug("getCancelButtonTitle()");
-        Assert.assertTrue(isCancelButtonDisplayed(), "Cancel Button is NOT displayed on Add User DialogBox!");
+        Assert.assertTrue(isCancelButtonDisplayed(), "Cancel Button is NOT displayed on AddUser DialogBox!");
         WebElement cancelButton = getWebElement(cancelButtonLocator);
         return getTextFromWebElement(cancelButton);
     }
 
     public UsersPage clickCancelButton() {
-        Assert.assertTrue(isCancelButtonEnabled(), "Cancel Button is NOT enabled on Add User DialogBox!");
+        Assert.assertTrue(isCancelButtonEnabled(), "Cancel Button is NOT enabled on AddUser DialogBox!");
         WebElement cancelButton = getWebElement(cancelButtonLocator);
         clickOnWebElement(cancelButton);
-        Assert.assertTrue(isAddUserDialogBoxClosed(Time.TIME_SHORTER), "Add User DialogBox is NOT closed!");
+        Assert.assertTrue(isAddUserDialogBoxClosed(Time.TIME_SHORTER), "AddUser DialogBox is NOT closed!");
         UsersPage usersPage = new UsersPage(driver);
         return usersPage.verifyUsersPage();
     }

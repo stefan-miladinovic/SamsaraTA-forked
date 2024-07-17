@@ -5,10 +5,9 @@ import data.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import utils.LoggerUtils;
-
-import java.util.List;
 
 public class UsersPage extends CommonLoggedInPageClass {
 
@@ -19,9 +18,13 @@ public class UsersPage extends CommonLoggedInPageClass {
     private final By searchTextFieldLocator = By.id("search");
     private final By searchButtonLocator = By.xpath("//div[@id='custom-search-input']//i[contains(@class, 'glyphicon-search')]");
     private final By addNewUserButtonLocator = By.xpath("//div[@class='row']//a[contains(@class,'btn-info') and contains(@onclick,'openAddUserModal')]");
+
+    private final String usersTableLocatorString = "//table[@id='users-table']";
     private final By usersTableLocator = By.id("users-table");
     private final By usernameTableColumnLocator = By.xpath("//table[@id='users-table']//td[1]");
 
+    @FindBy(id="users-table")
+    WebElement usersTable;
 
     public UsersPage(WebDriver driver) {
         super(driver);
@@ -132,7 +135,8 @@ public class UsersPage extends CommonLoggedInPageClass {
     }
 
     private String createXpathForUsernameInUsersTable(String sUsername) {
-        return "//table[@id='users-table']//td[1][text()='" + sUsername + "']";
+        return usersTableLocatorString + "//td[1][text()='" + sUsername + "']";
+        //return ".//td[1][text()='" + sUsername + "']";
     }
 
     public boolean isUserPresentInUsersTable(String sUsername) {
@@ -150,6 +154,7 @@ public class UsersPage extends CommonLoggedInPageClass {
         Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
         String xPath = createXpathForDisplayNameInUsersTable(sUsername);
         WebElement displayName = getWebElement(By.xpath(xPath));
+        //WebElement displayName = getNestedWebElement(usersTable, By.xpath(xPath));
         return getTextFromWebElement(displayName);
     }
 
@@ -210,6 +215,68 @@ public class UsersPage extends CommonLoggedInPageClass {
         clickOnWebElement(userDetailsIcon);
         UserDetailsDialogBox userDetailsDialogBox = new UserDetailsDialogBox(driver);
         return userDetailsDialogBox.verifyUserDetailsDialogBox();
+    }
+
+    private String createXpathForEditUserIconInUsersTable(String sUsername) {
+        return createXpathForUserIconsInUsersTable(sUsername) + "/a[contains(@class, 'btn-success')]";
+    }
+
+    public boolean isEditUserIconPresentInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isEditUserIconPresentInUsersTable(" + sUsername + ")");
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForEditUserIconInUsersTable(sUsername);
+        return isWebElementDisplayed(By.xpath(xPath));
+    }
+
+    private WebElement getEditUserIconWebElementInUsersTable(String sUsername) {
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForEditUserIconInUsersTable(sUsername);
+        return getWebElement(By.xpath(xPath));
+    }
+
+    public boolean isEditUserIconEnabledInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isEditUserIconEnabledInUsersTable(" + sUsername + ")");
+        WebElement EditUserIcon = getEditUserIconWebElementInUsersTable(sUsername);
+        return isWebElementEnabled(EditUserIcon);
+    }
+
+    public EditUserDialogBox clickEditUserIconInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("clickEditUserIconInUsersTable(" + sUsername + ")");
+        WebElement EditUserIcon = getEditUserIconWebElementInUsersTable(sUsername);
+        clickOnWebElement(EditUserIcon);
+        EditUserDialogBox EditUserDialogBox = new EditUserDialogBox(driver);
+        return EditUserDialogBox.verifyEditUserDialogBox();
+    }
+
+    private String createXpathForDeleteUserIconInUsersTable(String sUsername) {
+        return createXpathForUserIconsInUsersTable(sUsername) + "/a[contains(@class, 'btn-danger')]";
+    }
+
+    public boolean isDeleteUserIconPresentInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isDeleteUserIconPresentInUsersTable(" + sUsername + ")");
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForDeleteUserIconInUsersTable(sUsername);
+        return isWebElementDisplayed(By.xpath(xPath));
+    }
+
+    private WebElement getDeleteUserIconWebElementInUsersTable(String sUsername) {
+        Assert.assertTrue(isUserPresentInUsersTable(sUsername), "User '" + sUsername + "' is NOT present in Users Table!");
+        String xPath = createXpathForDeleteUserIconInUsersTable(sUsername);
+        return getWebElement(By.xpath(xPath));
+    }
+
+    public boolean isDeleteUserIconEnabledInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("isDeleteUserIconEnabledInUsersTable(" + sUsername + ")");
+        WebElement DeleteUserIcon = getDeleteUserIconWebElementInUsersTable(sUsername);
+        return isWebElementEnabled(DeleteUserIcon);
+    }
+
+    public DeleteUserDialogBox clickDeleteUserIconInUsersTable(String sUsername) {
+        LoggerUtils.log.debug("clickDeleteUserIconInUsersTable(" + sUsername + ")");
+        WebElement DeleteUserIcon = getDeleteUserIconWebElementInUsersTable(sUsername);
+        clickOnWebElement(DeleteUserIcon);
+        DeleteUserDialogBox DeleteUserDialogBox = new DeleteUserDialogBox(driver);
+        return DeleteUserDialogBox.verifyDeleteUserDialogBox();
     }
 
 //    private int getTableRow(String sUsername) {

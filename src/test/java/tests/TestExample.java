@@ -1,7 +1,9 @@
 package tests;
 
+import data.CommonStrings;
 import data.Time;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
 import utils.DateTimeUtils;
@@ -89,6 +91,9 @@ public class TestExample extends BaseTestClass {
     @Test
     public void testUnsuccessfulLoginWrongPassword() {
         WebDriver driver = setUpDriver();
+
+        String sExpectedErrorMessage = CommonStrings.getLoginErrorMessage();
+
         try {
             String sUsername = PropertiesUtils.getAdminUsername();
             String sPassword = "wrong_password";
@@ -97,6 +102,8 @@ public class TestExample extends BaseTestClass {
             // Open Samsara
             LoginPage loginPage = new LoginPage(driver).open();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            Assert.assertFalse(loginPage.isErrorMessageDisplayed(), "Error Message should NOT be displayed on Login Page by default!");
 
             // Type Username
             loginPage.typeUsername(sUsername);
@@ -110,8 +117,8 @@ public class TestExample extends BaseTestClass {
             loginPage = loginPage.clickLoginButtonNoProgress();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
-            // Verify Error Message on Login Page
-
+            String sErrorMessage = loginPage.getErrorMessage();
+            Assert.assertEquals(sErrorMessage, sExpectedErrorMessage, "Wrong Error Message!");
 
         } finally {
             quitDriver(driver);
@@ -121,6 +128,12 @@ public class TestExample extends BaseTestClass {
     @Test
     public void searchUser() {
         WebDriver driver = setUpDriver();
+
+        String sTestUserUsername = "finn";
+        String sTestUserDisplayName = "Finn Mertens";
+        String sExpectedDeleteUserMessage = CommonStrings.getDeleteUserMessage(sTestUserUsername, sTestUserDisplayName);
+        LoggerUtils.log.info("EXPECTED DELETE MESSAGE: " + sExpectedDeleteUserMessage);
+
         try {
             String sUsername = PropertiesUtils.getAdminUsername();
             String sPassword = PropertiesUtils.getAdminPassword();
@@ -149,19 +162,111 @@ public class TestExample extends BaseTestClass {
             LoggerUtils.log.info("Display Name: " + usersPage.getDisplayNameInUsersTable("finn"));
             LoggerUtils.log.info("Hero Count: " + usersPage.getHeroCountInUsersTable("finn"));
 
-            // Open User Heroes Dialog Box
+            // Open UserHeroes Dialog Box
             UserHeroesDialogBox userHeroesDialogBox = usersPage.clickHeroCountLinkInUsersTable("finn");
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
             usersPage = userHeroesDialogBox.clickCloseButton();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
-            // Open User Details Dialog Box
+            // Open UserDetails Dialog Box
             UserDetailsDialogBox userDetailsDialogBox = usersPage.clickUserDetailsIconInUsersTable("finn");
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
             usersPage = userDetailsDialogBox.clickCloseButton();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Open EditUser Dialog Box
+            EditUserDialogBox editUserDialogBox = usersPage.clickEditUserIconInUsersTable("finn");
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            usersPage = editUserDialogBox.clickCancelButton();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Open DeleteUser Dialog Box
+            DeleteUserDialogBox deleteUserDialogBox = usersPage.clickDeleteUserIconInUsersTable("finn");
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            String sDeleteUserMessage = sDeleteUserMessage = deleteUserDialogBox.getDeleteUserMessage();
+            Assert.assertEquals(sDeleteUserMessage, sExpectedDeleteUserMessage, "Wrong Delete User Message!");
+
+            usersPage = deleteUserDialogBox.clickCancelButton();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+        } finally {
+            quitDriver(driver);
+        }
+    }
+
+    @Test
+    public void chuckNorris() {
+
+        WebDriver driver = setUpDriver();
+
+        String sUsername = PropertiesUtils.getAdminUsername();
+        String sPassword = PropertiesUtils.getAdminPassword();
+
+        try {
+            // Open Samsara
+            LoginPage loginPage = new LoginPage(driver).open();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Login to Samsara
+            WelcomePage welcomePage = loginPage.login(sUsername, sPassword);
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Navigate to Admin Page
+            AdminPage adminPage = welcomePage.clickAdminTab();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            adminPage.uncheckChuckNorrisCheckBox();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            adminPage.uncheckChuckNorrisCheckBox();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            adminPage.checkChuckNorrisCheckBox();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            adminPage.checkChuckNorrisCheckBox();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+        } finally {
+            quitDriver(driver);
+        }
+    }
+
+    @Test
+    public void createNewHero() {
+
+        WebDriver driver = setUpDriver();
+
+        String sUsername = PropertiesUtils.getAdminUsername();
+        String sPassword = PropertiesUtils.getAdminPassword();
+
+        try {
+
+            // Open Samsara
+            LoginPage loginPage = new LoginPage(driver).open();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Login to Samsara
+            WelcomePage welcomePage = loginPage.login(sUsername, sPassword);
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Navigate to Heroes Page
+            HeroesPage heroesPage = welcomePage.clickHeroesTab();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            // Open AddHero DialogBox
+            AddHeroDialogBox addHeroDialogBox = heroesPage.clickAddNewHeroButton();
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            LoggerUtils.log.info("Selected Class: " + addHeroDialogBox.getSelectedHeroClass());
+
+            addHeroDialogBox.selectHeroClass("Thief");
+            DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+            LoggerUtils.log.info("Selected Class: " + addHeroDialogBox.getSelectedHeroClass());
 
         } finally {
             quitDriver(driver);

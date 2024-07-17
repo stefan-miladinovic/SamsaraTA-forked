@@ -19,7 +19,7 @@ public class UserHeroesDialogBox extends BasePageClass {
 
     public UserHeroesDialogBox verifyUserHeroesDialogBox() {
         LoggerUtils.log.debug("verifyUserHeroesDialogBox()");
-        Assert.assertTrue(isUserHeroesDialogBoxOpened(Time.TIME_SHORTER), "User Heroes DialogBox is NOT opened!");
+        Assert.assertTrue(isUserHeroesDialogBoxOpened(Time.TIME_SHORTER), "UserHeroes DialogBox is NOT opened!");
         return this;
     }
 
@@ -42,24 +42,24 @@ public class UserHeroesDialogBox extends BasePageClass {
 
     public boolean isCloseButtonEnabled() {
         LoggerUtils.log.debug("isCloseButtonEnabled()");
-        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on User Heroes DialogBox!");
+        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on UserHeroes DialogBox!");
         WebElement closeButton = getWebElement(closeButtonLocator);
         return isWebElementEnabled(closeButton);
     }
 
     public String getCloseButtonTitle() {
         LoggerUtils.log.debug("getCloseButtonTitle()");
-        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on User Heroes DialogBox!");
+        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on UserHeroes DialogBox!");
         WebElement closeButton = getWebElement(closeButtonLocator);
         return getTextFromWebElement(closeButton);
     }
 
     public UsersPage clickCloseButton() {
         LoggerUtils.log.debug("clickCloseButton()");
-        Assert.assertTrue(isCloseButtonEnabled(), "Close Button is NOT enabled on User Heroes DialogBox!");
+        Assert.assertTrue(isCloseButtonEnabled(), "Close Button is NOT enabled on UserHeroes DialogBox!");
         WebElement closeButton = getWebElement(closeButtonLocator);
         clickOnWebElement(closeButton);
-        Assert.assertTrue(isUserHeroesDialogBoxClosed(Time.TIME_SHORTER), "User Heroes DialogBox is NOT closed!");
+        Assert.assertTrue(isUserHeroesDialogBoxClosed(Time.TIME_SHORTER), "UserHeroes DialogBox is NOT closed!");
         UsersPage usersPage = new UsersPage(driver);
         return usersPage.verifyUsersPage();
     }

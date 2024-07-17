@@ -36,11 +36,15 @@ public class PropertiesUtils {
     }
 
     public static String getBrowser() {
-        return getProperty("browser");
+        return getProperty("browser").toLowerCase();
     }
 
     public static String getEnvironment() {
-        return getProperty("environment");
+        return getProperty("environment").toLowerCase();
+    }
+
+    public static String getLocale() {
+        return getProperty("locale").toLowerCase();
     }
 
     private static String getLocalBaseUrl() {

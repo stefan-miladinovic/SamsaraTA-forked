@@ -19,7 +19,7 @@ public class UserDetailsDialogBox extends BasePageClass {
 
     public UserDetailsDialogBox verifyUserDetailsDialogBox() {
         LoggerUtils.log.debug("verifyUserDetailsDialogBox()");
-        Assert.assertTrue(isUserDetailsDialogBoxOpened(Time.TIME_SHORTER), "User Details DialogBox is NOT opened!");
+        Assert.assertTrue(isUserDetailsDialogBoxOpened(Time.TIME_SHORTER), "UserDetails DialogBox is NOT opened!");
         return this;
     }
 
@@ -42,24 +42,24 @@ public class UserDetailsDialogBox extends BasePageClass {
 
     public boolean isCloseButtonEnabled() {
         LoggerUtils.log.debug("isCloseButtonEnabled()");
-        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on User Details DialogBox!");
+        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on UserDetails DialogBox!");
         WebElement closeButton = getWebElement(closeButtonLocator);
         return isWebElementEnabled(closeButton);
     }
 
     public String getCloseButtonTitle() {
         LoggerUtils.log.debug("getCloseButtonTitle()");
-        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on User Details DialogBox!");
+        Assert.assertTrue(isCloseButtonDisplayed(), "Close Button is NOT displayed on UserDetails DialogBox!");
         WebElement closeButton = getWebElement(closeButtonLocator);
         return getTextFromWebElement(closeButton);
     }
 
     public UsersPage clickCloseButton() {
         LoggerUtils.log.debug("clickCloseButton()");
-        Assert.assertTrue(isCloseButtonEnabled(), "Close Button is NOT enabled on User Details DialogBox!");
+        Assert.assertTrue(isCloseButtonEnabled(), "Close Button is NOT enabled on UserDetails DialogBox!");
         WebElement closeButton = getWebElement(closeButtonLocator);
         clickOnWebElement(closeButton);
-        Assert.assertTrue(isUserDetailsDialogBoxClosed(Time.TIME_SHORTER), "User Details DialogBox is NOT closed!");
+        Assert.assertTrue(isUserDetailsDialogBoxClosed(Time.TIME_SHORTER), "UserDetails DialogBox is NOT closed!");
         UsersPage usersPage = new UsersPage(driver);
         return usersPage.verifyUsersPage();
     }

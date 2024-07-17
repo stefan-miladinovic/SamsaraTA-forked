@@ -5,6 +5,7 @@ import data.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import utils.LoggerUtils;
 
@@ -15,9 +16,12 @@ public class LoginPage extends CommonLoggedOutPageClass {
     private final String loginBoxLocatorString = "div#loginbox";
     private final By usernameTextFieldLocator = By.id("username");
     private final By passwordTextFieldLocator = By.id("password");
-    private final By loginButtonLocator = By.cssSelector(loginBoxLocatorString + " input.btn-primary");
+    //private final By loginButtonLocator = By.cssSelector(loginBoxLocatorString + " input.btn-primary");
     private final By createAccountLinkLocator = By.cssSelector(loginBoxLocatorString + " a[href='" + PageUrlPaths.REGISTER_PAGE + "']");
     private final By resetPasswordLinkLocator = By.cssSelector(loginBoxLocatorString + " a[href='" + PageUrlPaths.RESET_PASSWORD_PAGE + "']");
+    private final By errorMessageLocator = By.cssSelector("#loginbox div.alert-danger");
+    //private final By errorMessageLocator = By.xpath("//div[text()='Invalid username and/or password!']");
+    private final By successMessageLocator = By.cssSelector("#loginbox div.alert-success");
 
 //    @FindBy(id = "username")
 //    private WebElement usernameTextField;
@@ -25,13 +29,12 @@ public class LoginPage extends CommonLoggedOutPageClass {
 //    @FindBy(id = "password")
 //    private WebElement passwordTextField;
 //
-//    @FindBy(xpath = "//input[@type='submit']")
-//    private WebElement loginButton;
+    @FindBy(xpath = "//input[@type='submit']")
+    private WebElement loginButton;
 
     // Constructor
     public LoginPage(WebDriver driver) {
         super(driver);
-        //PageFactory.initElements(driver, this);
     }
 
     public LoginPage open() {
@@ -128,26 +131,23 @@ public class LoginPage extends CommonLoggedOutPageClass {
     // Login Button
     public boolean isLoginButtonDisplayed() {
         LoggerUtils.log.debug("isLoginButtonDisplayed()");
-        return isWebElementDisplayed(loginButtonLocator);
+        return isWebElementDisplayed(loginButton);
     }
 
     public boolean isLoginButtonEnabled() {
         LoggerUtils.log.debug("isLoginButtonEnabled()");
         Assert.assertTrue(isLoginButtonDisplayed(), "Login Button is NOT displayed on Login Page!");
-        WebElement loginButton = getWebElement(loginButtonLocator);
         return isWebElementEnabled(loginButton);
     }
 
     public String getLoginButtonTitle() {
         LoggerUtils.log.debug("getLoginButtonTitle()");
         Assert.assertTrue(isLoginButtonDisplayed(), "Login Button is NOT displayed on Login Page!");
-        WebElement loginButton = getWebElement(loginButtonLocator);
         return getValueFromWebElement(loginButton);
     }
 
     private void clickLoginButtonNoVerification() {
         Assert.assertTrue(isLoginButtonEnabled(), "Login Button is NOT enabled on Login Page!");
-        WebElement loginButton = getWebElement(loginButtonLocator);
         clickOnWebElement(loginButton);
     }
 
@@ -163,6 +163,19 @@ public class LoginPage extends CommonLoggedOutPageClass {
         clickLoginButtonNoVerification();
         LoginPage loginPage = new LoginPage(driver);
         return loginPage.verifyLoginPage();
+    }
+
+    // Error Message
+    public boolean isErrorMessageDisplayed() {
+        LoggerUtils.log.debug("isErrorMessageDisplayed()");
+        return isWebElementDisplayed(errorMessageLocator);
+    }
+
+    public String getErrorMessage() {
+        LoggerUtils.log.debug("getErrorMessage()");
+        Assert.assertTrue(isErrorMessageDisplayed(), "Error Message is NOT displayed on Login Page!");
+        WebElement errorMessage = getWebElement(errorMessageLocator);
+        return getTextFromWebElement(errorMessage);
     }
 
     @SuppressWarnings("unchecked")
@@ -218,5 +231,19 @@ public class LoginPage extends CommonLoggedOutPageClass {
         clickOnWebElement(resetPasswordLink);
         ResetPasswordPage resetPasswordPage = new ResetPasswordPage(driver);
         return resetPasswordPage.verifyResetPasswordPage();
+    }
+
+    /**
+     * Login to Samsara
+     *
+     * @param {String} sUsername - User's username
+     * @param {String} sPassword - User's password
+     * @return {WelcomePage} New instance of Welcome Page
+     */
+    public WelcomePage login(String sUsername, String sPassword) {
+        LoggerUtils.log.info("login(" + sUsername + ", " + sPassword + ")");
+        typeUsername(sUsername);
+        typePassword(sPassword);
+        return clickLoginButton();
     }
 }

@@ -1,0 +1,7 @@
+# Login Page
+LOGIN_PAGE_TITLE=Samsara
+LOGIN_ERROR_MESSAGE=Invalid username and/or password.
+LOGOUT_SUCCESS_MESSAGE=You have been logged out.
+
+# DeleteUser DialogBox
+DELETE_USER_MESSAGE=Do you really want to delete user %USERNAME% (%FULL_NAME%)?
