@@ -43,8 +43,7 @@ public class TestExample extends BaseTestClass {
             usersPage = addUserDialogBox.clickCancelButton();
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
-        }
-        finally {
+        } finally {
             quitDriver(driver);
         }
     }
@@ -53,6 +52,9 @@ public class TestExample extends BaseTestClass {
     @Test
     public void testSuccessfulLoginLogout() {
         WebDriver driver = setUpDriver();
+        String sTestName = "testSuccessfulLoginLogout";
+        boolean bSuccess = false;
+
         try {
 
             String sUsername = PropertiesUtils.getAdminUsername();
@@ -78,21 +80,19 @@ public class TestExample extends BaseTestClass {
             DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
             welcomePage.getPageTitle();
+            bSuccess = true;
 
-            // Click Logout link
-
-            // Verify Success Message on Login Page
-        }
-        finally {
-            quitDriver(driver);
+        } finally {
+            tearDown(driver, bSuccess, sTestName);
         }
     }
 
     @Test
     public void testUnsuccessfulLoginWrongPassword() {
         WebDriver driver = setUpDriver();
-
+        String sTestName = "testUnsuccessfulLoginWrongPassword";
         String sExpectedErrorMessage = CommonStrings.getLoginErrorMessage();
+        boolean bSuccess = false;
 
         try {
             String sUsername = PropertiesUtils.getAdminUsername();
@@ -119,9 +119,10 @@ public class TestExample extends BaseTestClass {
 
             String sErrorMessage = loginPage.getErrorMessage();
             Assert.assertEquals(sErrorMessage, sExpectedErrorMessage, "Wrong Error Message!");
+            bSuccess = true;
 
         } finally {
-            quitDriver(driver);
+            tearDown(driver, bSuccess, sTestName);
         }
     }
 

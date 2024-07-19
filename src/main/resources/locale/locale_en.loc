@@ -1,3 +1,6 @@
+# Welcome Page
+WELCOME_PAGE_TITLE=Hello and welcome to our gamers page!
+
 # Login Page
 LOGIN_PAGE_TITLE=Samsara
 LOGIN_ERROR_MESSAGE=Invalid username and/or password.

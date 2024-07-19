@@ -132,6 +132,10 @@ public class PropertiesUtils {
         return getProperty("driversFolder");
     }
 
+    public static String getScreenshotsFolder() {
+        return getProperty("screenshotsFolder");
+    }
+
     public static String getHubUrl() {
         return getProperty("hubUrl");
     }

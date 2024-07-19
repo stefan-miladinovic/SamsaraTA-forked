@@ -28,6 +28,11 @@ public final class CommonStrings {
         return getLocaleString("LOGOUT_SUCCESS_MESSAGE");
     }
 
+    // Welcome Page
+    public static String getWelcomePageTitle() {
+        return getLocaleString("WELCOME_PAGE_TITLE");
+    }
+
     // DeleteUser DialogBox
     public static String getDeleteUserMessage(String sUsername, String sDisplayName) {
         return getLocaleString("DELETE_USER_MESSAGE").replace("%USERNAME%", sUsername).replace("%FULL_NAME%", sDisplayName);

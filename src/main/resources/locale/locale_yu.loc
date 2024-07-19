@@ -1,3 +1,6 @@
+# Welcome Page
+WELCOME_PAGE_TITLE=Zdravo!
+
 # Login Page
 LOGIN_PAGE_TITLE=Samsara
 LOGIN_ERROR_MESSAGE=Zeznuo si kredencijale!
