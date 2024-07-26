@@ -5,6 +5,7 @@ WELCOME_PAGE_TITLE=Hello and welcome to our gamers page!
 LOGIN_PAGE_TITLE=Samsara
 LOGIN_ERROR_MESSAGE=Invalid username and/or password.
 LOGOUT_SUCCESS_MESSAGE=You have been logged out.
+REGISTER_SUCCESS_MESSAGE=You have successfully registered on Samsara.
 
 # DeleteUser DialogBox
 DELETE_USER_MESSAGE=Do you really want to delete user %USERNAME% (%FULL_NAME%)?

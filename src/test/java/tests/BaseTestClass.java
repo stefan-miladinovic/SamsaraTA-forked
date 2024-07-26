@@ -3,6 +3,7 @@ package tests;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import utils.LoggerUtils;
+import utils.PropertiesUtils;
 import utils.ScreenShotUtils;
 import utils.WebDriverUtils;
 
@@ -33,7 +34,7 @@ public abstract class BaseTestClass {
         String sTestName = testResult.getTestClass().getName();
         String sFileName = sTestName + "_" + testResult.getEndMillis();
         try {
-            if(testResult.getStatus() == ITestResult.FAILURE) {
+            if(testResult.getStatus() == ITestResult.FAILURE && PropertiesUtils.getTakeScreenshots()) {
                 ScreenShotUtils.takeScreenShot(driver, sFileName);
             }
         } catch (AssertionError | Exception e) {

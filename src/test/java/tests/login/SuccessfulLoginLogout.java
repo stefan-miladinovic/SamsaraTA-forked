@@ -30,6 +30,8 @@ public class SuccessfulLoginLogout extends BaseTestClass {
         LoggerUtils.log.debug("[SETUP TEST] " + sTestName);
         driver = setUpDriver();
 
+        // Post New User API Call -> create new user
+
         sUsername = PropertiesUtils.getAdminUsername();
         sPassword = PropertiesUtils.getAdminPassword();
     }
@@ -38,6 +40,7 @@ public class SuccessfulLoginLogout extends BaseTestClass {
     public void test() {
         LoggerUtils.log.debug("[START TEST] " + sTestName);
 
+        // Verify login with newly created user
         String sExpectedWelcomePageTitle = CommonStrings.getWelcomePageTitle();
 
         LoginPage loginPage = new LoginPage(driver).open();
@@ -63,5 +66,7 @@ public class SuccessfulLoginLogout extends BaseTestClass {
     public void tearDownTest(ITestResult testResult) {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);
+
+        // Delete user
     }
 }

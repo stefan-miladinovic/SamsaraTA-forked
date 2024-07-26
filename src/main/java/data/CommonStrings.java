@@ -28,6 +28,10 @@ public final class CommonStrings {
         return getLocaleString("LOGOUT_SUCCESS_MESSAGE");
     }
 
+    public static String getRegisterSuccessMessage() {
+        return getLocaleString("REGISTER_SUCCESS_MESSAGE");
+    }
+
     // Welcome Page
     public static String getWelcomePageTitle() {
         return getLocaleString("WELCOME_PAGE_TITLE");

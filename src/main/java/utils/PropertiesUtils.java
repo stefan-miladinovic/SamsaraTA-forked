@@ -120,6 +120,10 @@ public class PropertiesUtils {
         return getProperty("password");
     }
 
+    public static String getDefaultPassword() {
+        return getProperty("defaultPassword");
+    }
+
     public static String getAdminUsername() {
         return getProperty("adminUsername");
     }
@@ -132,11 +136,28 @@ public class PropertiesUtils {
         return getProperty("driversFolder");
     }
 
+    public static String getDefaultSecretQuestion() {
+        return getProperty("defaultSecretQuestion");
+    }
+
+    public static String getDefaultSecretAnswer() {
+        return getProperty("defaultSecretAnswer");
+    }
+
     public static String getScreenshotsFolder() {
         return getProperty("screenshotsFolder");
     }
 
     public static String getHubUrl() {
         return getProperty("hubUrl");
+    }
+
+    public static boolean getTakeScreenshots() {
+        String sTakeScreenshots = getProperty("takeScreenshots");
+        sTakeScreenshots = sTakeScreenshots.toLowerCase();
+        if (!(sTakeScreenshots.equals("true") || sTakeScreenshots.equals("false"))) {
+            Assert.fail("Cannot convert 'TakeScreenshots' property value '" + sTakeScreenshots + "' to boolean value!");
+        }
+        return Boolean.parseBoolean(sTakeScreenshots);
     }
 }

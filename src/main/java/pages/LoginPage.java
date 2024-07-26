@@ -178,6 +178,19 @@ public class LoginPage extends CommonLoggedOutPageClass {
         return getTextFromWebElement(errorMessage);
     }
 
+    // Success Message
+    public boolean isSuccessMessageDisplayed() {
+        LoggerUtils.log.debug("isSuccessMessageDisplayed()");
+        return isWebElementDisplayed(successMessageLocator);
+    }
+
+    public String getSuccessMessage() {
+        LoggerUtils.log.debug("getSuccessMessage()");
+        Assert.assertTrue(isSuccessMessageDisplayed(), "Success Message is NOT displayed on Login Page!");
+        WebElement successMessage = getWebElement(successMessageLocator);
+        return getTextFromWebElement(successMessage);
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T clickLoginButton(boolean bProgress) {
         LoggerUtils.log.debug("clickLoginButton(" + bProgress + ")");

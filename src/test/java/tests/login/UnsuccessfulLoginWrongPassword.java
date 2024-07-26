@@ -15,6 +15,7 @@ import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.PropertiesUtils;
 
+@Test
 public class UnsuccessfulLoginWrongPassword extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();

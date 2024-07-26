@@ -5,6 +5,7 @@ WELCOME_PAGE_TITLE=Zdravo!
 LOGIN_PAGE_TITLE=Samsara
 LOGIN_ERROR_MESSAGE=Zeznuo si kredencijale!
 LOGOUT_SUCCESS_MESSAGE=Izlogovao si se!
+REGISTER_SUCCESS_MESSAGE=Registrovao si se!
 
 # DeleteUser DialogBox
 DELETE_USER_MESSAGE=Hocemo da obrisemo korisnika %USERNAME% (%FULL_NAME%)?
