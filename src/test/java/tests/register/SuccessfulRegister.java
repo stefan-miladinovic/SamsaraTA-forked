@@ -10,13 +10,13 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.LoginPage;
 import pages.RegisterPage;
 import tests.BaseTestClass;
 import utils.DateTimeUtils;
 import utils.LoggerUtils;
-
-import java.util.Date;
+import utils.RestApiUtils;
 
 public class SuccessfulRegister extends BaseTestClass {
 
@@ -33,14 +33,7 @@ public class SuccessfulRegister extends BaseTestClass {
         driver = setUpDriver();
 
         user = User.createNewUniqueUser("SuccessfulRegister");
-        LoggerUtils.log.info(user);
         bCreated = false;
-
-        Date currentDateTime = DateTimeUtils.getCurrentDateTime();
-        LoggerUtils.log.info("Date: " + currentDateTime.toString());
-
-        String formattedDateTime = DateTimeUtils.getFormattedDateTime(currentDateTime, "EEEE dd-MMMM-yyyy HH:mm:ss z");
-        LoggerUtils.log.info("Formatted Date: " + formattedDateTime);
     }
 
     @Test
@@ -68,13 +61,26 @@ public class SuccessfulRegister extends BaseTestClass {
 
         loginPage = registerPage.clickSignUpButton();
         DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+        user.setCreatedAt(DateTimeUtils.getCurrentDateTime());
         bCreated = true;
 
         String sRegisterSuccessMessage = loginPage.getSuccessMessage();
         Assert.assertEquals(sRegisterSuccessMessage, sExpectedRegisterSuccessMessage, "Wrong Success Message");
 
-        // Check if User exists in database
-        
+        Assert.assertTrue(RestApiUtils.checkIfUserExists(user.getUsername()), "User '" + user.getUsername() + " is NOT created!");
+
+        User createdUser = RestApiUtils.getUser(user.getUsername());
+        LoggerUtils.log.info(createdUser);
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(createdUser.getFirstName(), user.getFirstName(), "Wrong First Name!");
+        softAssert.assertEquals(createdUser.getLastName(), user.getLastName(), "Wrong Last Name!");
+        softAssert.assertEquals(createdUser.getEmail(), user.getEmail(), "Wrong Email!");
+        softAssert.assertEquals(createdUser.getAbout(), user.getAbout(), "Wrong About Text!");
+        softAssert.assertTrue(DateTimeUtils.compareDateTime(createdUser.getCreatedAt(), user.getCreatedAt(), 60), "Wrong CreatedAt Date!");
+        softAssert.assertEquals(createdUser.getSecretAnswer(), user.getSecretAnswer(), "Wrong Secret Answer!");
+        softAssert.assertEquals(createdUser.getHeroCount(), user.getHeroCount(), "Wrong Hero Count!");
+        softAssert.assertAll("Wrong User Details are saved in Database for User '" + user.getUsername() + "'!");
     }
 
     @AfterMethod
@@ -82,11 +88,16 @@ public class SuccessfulRegister extends BaseTestClass {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);
         if(bCreated) {
-            try {
-             // 2. Delete Rest Api call to delete user
-            } finally {
-                quitDriver(driver);
-            }
+            cleanUp();
+        }
+    }
+
+    private void cleanUp() {
+        LoggerUtils.log.debug("cleanUp()");
+        try {
+            RestApiUtils.deleteUser(user.getUsername());
+        } catch (AssertionError | Exception e) {
+            LoggerUtils.log.error("Cleaning Up Failed! Message: " + e.getMessage());
         }
     }
 }

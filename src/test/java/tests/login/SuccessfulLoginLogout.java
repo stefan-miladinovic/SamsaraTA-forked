@@ -2,6 +2,7 @@ package tests.login;
 
 import data.CommonStrings;
 import data.Time;
+import objects.User;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -14,7 +15,7 @@ import pages.WelcomePage;
 import tests.BaseTestClass;
 import utils.DateTimeUtils;
 import utils.LoggerUtils;
-import utils.PropertiesUtils;
+import utils.RestApiUtils;
 
 @Test
 public class SuccessfulLoginLogout extends BaseTestClass {
@@ -22,18 +23,20 @@ public class SuccessfulLoginLogout extends BaseTestClass {
     private final String sTestName = this.getClass().getName();
     private WebDriver driver;
 
-    private String sUsername;
-    private String sPassword;
+    private User user;
+
+    private boolean bCreated = false;
 
     @BeforeMethod
     public void setUpTest(ITestContext testContext) {
         LoggerUtils.log.debug("[SETUP TEST] " + sTestName);
         driver = setUpDriver();
 
-        // Post New User API Call -> create new user
-
-        sUsername = PropertiesUtils.getAdminUsername();
-        sPassword = PropertiesUtils.getAdminPassword();
+        user = User.createNewUniqueUser("SuccessfulLogin");
+        RestApiUtils.postUser(user);
+        user.setCreatedAt(RestApiUtils.getUser(user.getUsername()).getCreatedAt());
+        bCreated = true;
+        LoggerUtils.log.info(user);
     }
 
     @Test
@@ -46,11 +49,11 @@ public class SuccessfulLoginLogout extends BaseTestClass {
         LoginPage loginPage = new LoginPage(driver).open();
         DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
-        loginPage.typeUsername(sUsername);
+        loginPage.typeUsername(user.getUsername());
         DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
         // Type Password
-        loginPage.typePassword(sPassword);
+        loginPage.typePassword(user.getPassword());
         DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
 
         // Click Login Button
@@ -66,7 +69,17 @@ public class SuccessfulLoginLogout extends BaseTestClass {
     public void tearDownTest(ITestResult testResult) {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);
+        if(bCreated) {
+            cleanUp();
+        }
+    }
 
-        // Delete user
+    private void cleanUp() {
+        LoggerUtils.log.debug("cleanUp()");
+        try {
+            RestApiUtils.deleteUser(user.getUsername());
+        } catch (AssertionError | Exception e) {
+            LoggerUtils.log.error("Cleaning Up Failed! Message: " + e.getMessage());
+        }
     }
 }

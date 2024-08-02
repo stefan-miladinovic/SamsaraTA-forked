@@ -1,5 +1,6 @@
 package objects;
 
+import com.google.gson.annotations.SerializedName;
 import utils.DateTimeUtils;
 
 import java.util.Date;
@@ -7,10 +8,17 @@ import java.util.Objects;
 
 public class Hero {
 
+    @SerializedName("name")
     private String heroName;
+
+    @SerializedName("type")
     private String heroClass;
+
+    @SerializedName("level")
     private Integer heroLevel;
+
     private String username;
+
     private Long createdAt;
 
     private Hero(String heroName, String heroClass, Integer heroLevel, String username, Date createdAt) {

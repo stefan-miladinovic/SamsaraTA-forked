@@ -40,4 +40,10 @@ public class DateTimeUtils {
     public static String getDateTimeStamp() {
         return getFormattedCurrentDateTime("yyMMddHHmmss");
     }
+
+    public static boolean compareDateTime(Date date1, Date date2, int threshold) {
+        long diff = (date2.getTime() - date1.getTime())/1000;
+        LoggerUtils.log.debug("Comparing dates (Date 1: " + date1 + ", Date 2: " + date2 + "). Difference: " + diff + " seconds. Threshold: " + threshold + ".");
+        return Math.abs(diff) <= threshold;
+    }
 }

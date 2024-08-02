@@ -21,7 +21,7 @@ public class User {
     private String about;
     private String secretQuestion;
     private String secretAnswer;
-    private Long createdAt; // null
+    private Long createdAt;
     private List<Hero> heroes;
 
     private User(String username, String password, String email, String firstName, String lastName, String about, String secretQuestion, String secretAnswer, Date createdAt, List<Hero> heroes) {

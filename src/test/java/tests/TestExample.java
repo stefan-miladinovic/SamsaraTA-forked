@@ -2,6 +2,7 @@ package tests;
 
 import data.CommonStrings;
 import data.Time;
+import objects.User;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -9,6 +10,7 @@ import pages.*;
 import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.PropertiesUtils;
+import utils.RestApiUtils;
 
 public class TestExample extends BaseTestClass {
 
@@ -272,5 +274,15 @@ public class TestExample extends BaseTestClass {
         } finally {
             quitDriver(driver);
         }
+    }
+
+    @Test
+    public void getUserRestApiTest() {
+
+        String jsonUser = RestApiUtils.getUserJsonFormat("dedoje");
+        LoggerUtils.log.debug(jsonUser);
+
+        User user = RestApiUtils.getUser("dedoje");
+        LoggerUtils.log.debug(user);
     }
 }
