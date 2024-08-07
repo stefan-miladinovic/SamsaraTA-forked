@@ -2,6 +2,7 @@ package objects;
 
 // POJO - Plane Old Java Object
 
+import com.github.javafaker.Faker;
 import org.testng.Assert;
 import utils.DateTimeUtils;
 import utils.PropertiesUtils;
@@ -53,9 +54,9 @@ public class User {
     private User(String username) {
         String sPassword = PropertiesUtils.getDefaultPassword();
         String sEmail = username + "@mail.com";
-        String sFirstName = "Name";
-        String sLastName = "Surname";
-        String sAbout = "About me";
+        String sFirstName = createRandomFirstName();
+        String sLastName = createRandomLastName();
+        String sAbout = "About Me Text!";
         String sSecretQuestion = PropertiesUtils.getDefaultSecretQuestion();
         String sSecretAnswer = PropertiesUtils.getDefaultSecretAnswer();
 
@@ -69,6 +70,21 @@ public class User {
         this.setSecretAnswer(sSecretAnswer);
         this.setCreatedAt(null);
         this.setHeroes(null);
+    }
+
+    private static String createRandomFirstName() {
+        Faker faker = new Faker();
+        return faker.name().firstName();
+    }
+
+    private static String createRandomLastName() {
+        Faker faker = new Faker();
+        return faker.name().lastName();
+    }
+
+    private static String createRandomAboutMeText() {
+        Faker faker = new Faker();
+        return faker.yoda().quote();
     }
 
     public String getUsername() {

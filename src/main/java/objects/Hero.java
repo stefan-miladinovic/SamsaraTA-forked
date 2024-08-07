@@ -1,12 +1,16 @@
 package objects;
 
+import com.github.javafaker.Faker;
 import com.google.gson.annotations.SerializedName;
+import data.HeroClass;
 import utils.DateTimeUtils;
 
 import java.util.Date;
 import java.util.Objects;
 
 public class Hero {
+
+    private static final String[] heroClasses = {HeroClass.WARRIOR, HeroClass.GUARDIAN, HeroClass.REVENANT, HeroClass.ENGINEER, HeroClass.THIEF, HeroClass.RANGER, HeroClass.ELEMENTALIST, HeroClass.NECROMANCER, HeroClass.MESMER};
 
     @SerializedName("name")
     private String heroName;
@@ -45,7 +49,25 @@ public class Hero {
         setCreatedAt(null);
     }
 
-    // TODO: Create Constructor with random HeroClass and HeroLevel
+    private Hero(String heroName, String username) {
+        this.heroName = heroName;
+        this.username = username;
+        this.heroClass = createRandomHeroClass();
+        this.heroLevel = createRandomHeroLevel();
+        setCreatedAt(null);
+    }
+
+    private static String createRandomHeroClass() {
+        Faker faker = new Faker();
+        int i = faker.random().nextInt(0, 8);
+        return heroClasses[i];
+    }
+
+    private static int createRandomHeroLevel() {
+        Faker faker = new Faker();
+        int i = faker.random().nextInt(0, 80);
+        return i;
+    }
 
     public String getHeroName() {
         return heroName;
@@ -110,6 +132,12 @@ public class Hero {
         String sHeroName = heroName + DateTimeUtils.getDateTimeStamp();
         String sUsername = user.getUsername();
         return new Hero(sHeroName, heroClass, heroLevel, sUsername);
+    }
+
+    public static Hero createNewUniqueHero(User user, String heroName) {
+        String sHeroName = heroName + DateTimeUtils.getDateTimeStamp();
+        String sUsername = user.getUsername();
+        return new Hero(sHeroName, sUsername);
     }
 
     @Override

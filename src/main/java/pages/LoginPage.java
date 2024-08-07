@@ -2,6 +2,7 @@ package pages;
 
 import data.PageUrlPaths;
 import data.Time;
+import objects.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -73,11 +74,12 @@ public class LoginPage extends CommonLoggedOutPageClass {
         return isWebElementEnabled(usernameTextField);
     }
 
-    public void typeUsername(String sUsername) {
+    public LoginPage typeUsername(String sUsername) {
         LoggerUtils.log.debug("typeUsername(" + sUsername + ")");
         Assert.assertTrue(isUsernameTextFieldEnabled(), "Username Text Field is NOT enabled on Login Page!");
         WebElement usernameTextField = getWebElement(usernameTextFieldLocator);
         clearAndTypeTextToWebElement(usernameTextField, sUsername);
+        return this;
     }
 
     public String getUsername() {
@@ -107,11 +109,12 @@ public class LoginPage extends CommonLoggedOutPageClass {
         return isWebElementEnabled(passwordTextField);
     }
 
-    public void typePassword(String sPassword) {
+    public LoginPage typePassword(String sPassword) {
         LoggerUtils.log.debug("typePassword(" + sPassword + ")");
         Assert.assertTrue(isPasswordTextFieldEnabled(), "Password Text Field is NOT enabled on Login Page!");
         WebElement passwordTextField = getWebElement(passwordTextFieldLocator);
         clearAndTypeTextToWebElement(passwordTextField, sPassword);
+        return this;
     }
 
     public String getPassword() {
@@ -258,5 +261,14 @@ public class LoginPage extends CommonLoggedOutPageClass {
         typeUsername(sUsername);
         typePassword(sPassword);
         return clickLoginButton();
+    }
+
+    /**
+     * Login to Samsara
+     * @param user {User} User details
+     * @return {WelcomePage} New instance of Welcome Page
+     */
+    public WelcomePage login(User user) {
+        return login(user.getUsername(), user.getPassword());
     }
 }

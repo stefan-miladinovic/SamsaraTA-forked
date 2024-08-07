@@ -1,6 +1,7 @@
 package tests.register;
 
 import data.CommonStrings;
+import data.Groups;
 import data.Time;
 import objects.User;
 import org.openqa.selenium.WebDriver;
@@ -11,13 +12,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import pages.LoginPage;
-import pages.RegisterPage;
+import pages.*;
 import tests.BaseTestClass;
 import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.RestApiUtils;
 
+import java.util.Date;
+
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.REGISTER})
 public class SuccessfulRegister extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();
@@ -81,9 +84,24 @@ public class SuccessfulRegister extends BaseTestClass {
         softAssert.assertEquals(createdUser.getSecretAnswer(), user.getSecretAnswer(), "Wrong Secret Answer!");
         softAssert.assertEquals(createdUser.getHeroCount(), user.getHeroCount(), "Wrong Hero Count!");
         softAssert.assertAll("Wrong User Details are saved in Database for User '" + user.getUsername() + "'!");
+
+        WelcomePage welcomePage = loginPage.login(user);
+        DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+        UsersPage usersPage = welcomePage.clickUsersTab();
+        DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+        usersPage.search(user.getUsername());
+        DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+        UserDetailsDialogBox userDetailsDialogBox = usersPage.clickUserDetailsIconInUsersTable(user.getUsername());
+        DateTimeUtils.wait(Time.TIME_DEMONSTRATION);
+
+        Date date = userDetailsDialogBox.getCreatedAtDate();
+        Assert.assertTrue(DateTimeUtils.compareDateTime(date, createdUser.getCreatedAt(), 60),"Wrong CreatedAt Date on UserDetails DialogBox");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDownTest(ITestResult testResult) {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);

@@ -2,6 +2,7 @@ package tests;
 
 import data.CommonStrings;
 import data.Time;
+import objects.Hero;
 import objects.User;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -284,5 +285,19 @@ public class TestExample extends BaseTestClass {
 
         User user = RestApiUtils.getUser("dedoje");
         LoggerUtils.log.debug(user);
+    }
+
+    @Test
+    public void createNewUser() {
+
+        User user = User.createNewUniqueUser("NewUser");
+        LoggerUtils.log.info(user);
+
+        Hero hero = Hero.createNewUniqueHero(user, "NewHero");
+        LoggerUtils.log.info(hero);
+
+        user.addHero(hero);
+        LoggerUtils.log.info(user);
+
     }
 }

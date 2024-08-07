@@ -2,7 +2,7 @@ package data;
 
 import utils.PropertiesUtils;
 
-public class ApiCalls {
+public final class ApiCalls {
 
     private static final String BASE_URL = PropertiesUtils.getBaseUrl();
 

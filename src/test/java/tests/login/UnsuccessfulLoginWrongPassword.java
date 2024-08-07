@@ -1,6 +1,7 @@
 package tests.login;
 
 import data.CommonStrings;
+import data.Groups;
 import data.Time;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -15,7 +16,7 @@ import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.PropertiesUtils;
 
-@Test
+@Test(groups = {Groups.REGRESSION, Groups.LOGIN})
 public class UnsuccessfulLoginWrongPassword extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();
@@ -57,7 +58,7 @@ public class UnsuccessfulLoginWrongPassword extends BaseTestClass {
         Assert.assertEquals(sErrorMessage, sExpectedErrorMessage, "Wrong Error Message!");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDownTest(ITestResult testResult) {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);

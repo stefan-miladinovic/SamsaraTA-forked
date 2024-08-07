@@ -1,6 +1,7 @@
 package tests.login;
 
 import data.CommonStrings;
+import data.Groups;
 import data.Time;
 import objects.User;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +18,7 @@ import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.RestApiUtils;
 
-@Test
+@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.LOGIN})
 public class SuccessfulLoginLogout extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();
@@ -65,7 +66,7 @@ public class SuccessfulLoginLogout extends BaseTestClass {
         Assert.assertEquals(sWelcomePageTitle, sExpectedWelcomePageTitle, "Wrong WelcomePage Title!");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDownTest(ITestResult testResult) {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);

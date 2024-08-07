@@ -279,6 +279,14 @@ public class UsersPage extends CommonLoggedInPageClass {
         return DeleteUserDialogBox.verifyDeleteUserDialogBox();
     }
 
+    public UsersPage search(String sSearchText) {
+        LoggerUtils.log.debug("search(" + sSearchText + ")");
+        typeSearchText(sSearchText);
+        clickSearchButton();
+        UsersPage usersPage = new UsersPage(driver);
+        return usersPage.verifyUsersPage();
+    }
+
 //    private int getTableRow(String sUsername) {
 //        List<WebElement> tableRows = getWebElements(usernameTableColumnLocator);
 //        for (int i = 0; i < tableRows.size(); i++) {
