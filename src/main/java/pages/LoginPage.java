@@ -55,6 +55,7 @@ public class LoginPage extends CommonLoggedOutPageClass {
     public LoginPage verifyLoginPage() {
         LoggerUtils.log.debug("verifyLoginPage()");
         waitForUrlChange(LOGIN_PAGE_URL, Time.TIME_SHORTER);
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         // wait for dom structure to be completed
         // wait/check the presence of specific/problematic web element
         return this;

@@ -4,6 +4,7 @@ public final class Groups {
     public static final String REGRESSION = "regression";
     public static final String SMOKE = "smoke";
     public static final String SANITY = "sanity";
+    public static final String EVALUATION = "evaluation";
 
     public static final String BUGS = "bugs";
     public static final String DEPRECATED = "deprecated";

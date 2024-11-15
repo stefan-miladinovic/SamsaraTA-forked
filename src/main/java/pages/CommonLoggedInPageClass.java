@@ -107,6 +107,34 @@ public abstract class CommonLoggedInPageClass extends CommonPageClass {
         return heroesPage.verifyHeroesPage();
     }
 
+    public boolean isPracticeTabDisplayed() {
+        LoggerUtils.log.debug("isPracticeTabDisplayed()");
+        return isWebElementDisplayed(practiceTabLocator);
+    }
+
+    public boolean isPracticeTabEnabled() {
+        LoggerUtils.log.debug("isPracticeTabEnabled()");
+        Assert.assertTrue(isPracticeTabDisplayed(), "Practice Tab is NOT displayed on Navigation Bar!");
+        WebElement practiceTab = getWebElement(practiceTabLocator);
+        return isWebElementEnabled(practiceTab);
+    }
+
+    public String getPracticeTabTitle() {
+        LoggerUtils.log.debug("getPracticeTabTitle()");
+        Assert.assertTrue(isPracticeTabDisplayed(), "Practice Tab is NOT displayed on Navigation Bar!");
+        WebElement practiceTab = getWebElement(practiceTabLocator);
+        return getTextFromWebElement(practiceTab);
+    }
+
+    public PracticePage clickPracticeTab() {
+        LoggerUtils.log.debug("clickPracticeTab()");
+        Assert.assertTrue(isPracticeTabEnabled(), "Practice Tab is NOT enabled on Navigation Bar!");
+        WebElement practiceTab = getWebElement(practiceTabLocator);
+        clickOnWebElement(practiceTab);
+        PracticePage practicePage = new PracticePage(driver);
+        return practicePage.verifyPracticePage();
+    }
+
     public boolean isAdminTabDisplayed() {
         LoggerUtils.log.debug("isAdminTabDisplayed()");
         return isWebElementDisplayed(adminTabLocator);

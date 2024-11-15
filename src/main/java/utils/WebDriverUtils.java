@@ -39,7 +39,8 @@ public class WebDriverUtils {
                 case "chrome": {
                     ChromeOptions options = new ChromeOptions();
                     if (bHeadless) {
-                        options.addArguments("--silent");
+                        //options.setHeadless(bHeadless);
+                        options.addArguments("--headless=new");
                     }
                     if (bRemote) {
                         RemoteWebDriver remoteDriver = new RemoteWebDriver(new URL(sHubUrl), options);
@@ -53,7 +54,7 @@ public class WebDriverUtils {
                 case "firefox": {
                     FirefoxOptions options = new FirefoxOptions();
                     if (bHeadless) {
-                        options.addArguments("--silent");
+                        options.addArguments("--headless");
                     }
                     if (bRemote) {
                         RemoteWebDriver remoteDriver = new RemoteWebDriver(new URL(sHubUrl), options);
@@ -67,7 +68,7 @@ public class WebDriverUtils {
                 case "edge": {
                     EdgeOptions options = new EdgeOptions();
                     if (bHeadless) {
-                        options.addArguments("--silent");
+                        options.addArguments("--headless=new");
                     }
                     if (bRemote) {
                         RemoteWebDriver remoteDriver = new RemoteWebDriver(new URL(sHubUrl), options);

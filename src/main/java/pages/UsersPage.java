@@ -46,8 +46,7 @@ public class UsersPage extends CommonLoggedInPageClass {
     public UsersPage verifyUsersPage() {
         LoggerUtils.log.debug("verifyUsersPage()");
         waitForUrlChange(USERS_PAGE_URL, Time.TIME_SHORTER);
-        // wait for dom structure to be completed
-        // wait/check the presence of specific/problematic web element
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 

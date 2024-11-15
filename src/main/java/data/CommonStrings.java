@@ -37,8 +37,14 @@ public final class CommonStrings {
         return getLocaleString("WELCOME_PAGE_TITLE");
     }
 
+    // Practice Page
+    public static String getUselessTooltipText() {
+        return getLocaleString("USELESS_TOOLTIP_TEXT");
+    }
+
     // DeleteUser DialogBox
     public static String getDeleteUserMessage(String sUsername, String sDisplayName) {
         return getLocaleString("DELETE_USER_MESSAGE").replace("%USERNAME%", sUsername).replace("%FULL_NAME%", sDisplayName);
     }
+
 }

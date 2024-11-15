@@ -9,3 +9,6 @@ REGISTER_SUCCESS_MESSAGE=You have successfully registered on Samsara.
 
 # DeleteUser DialogBox
 DELETE_USER_MESSAGE=Do you really want to delete user %USERNAME% (%FULL_NAME%)?
+
+# Practice Page
+USELESS_TOOLTIP_TEXT=This is one useless tooltip! Nevertheless, try to get its content!

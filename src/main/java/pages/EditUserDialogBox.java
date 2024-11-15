@@ -19,6 +19,7 @@ public class EditUserDialogBox extends BasePageClass {
 
     public EditUserDialogBox verifyEditUserDialogBox() {
         LoggerUtils.log.debug("verifyEditUserDialogBox()");
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         Assert.assertTrue(isEditUserDialogBoxOpened(Time.TIME_SHORTER), "EditUser DialogBox is NOT opened!");
         return this;
     }

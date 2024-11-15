@@ -29,6 +29,7 @@ public class ResetPasswordPage extends CommonLoggedOutPageClass {
     public ResetPasswordPage verifyResetPasswordPage() {
         LoggerUtils.log.debug("verifyResetPasswordPage()");
         waitForUrlChange(RESET_PASSWORD_PAGE_URL, Time.TIME_SHORTER);
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 }

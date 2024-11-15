@@ -29,6 +29,7 @@ public class HomePage extends CommonLoggedInPageClass {
     public HomePage verifyHomePage() {
         LoggerUtils.log.debug("verifyHomePage()");
         waitForUrlChange(HOME_PAGE_URL, Time.TIME_SHORTER);
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 }

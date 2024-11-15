@@ -1,21 +1,20 @@
 package pages;
 
 import data.Time;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
+import utils.JavaScriptUtils;
 import utils.LoggerUtils;
 import utils.PropertiesUtils;
 import utils.WebDriverUtils;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 public abstract class BasePageClass {
 
@@ -50,6 +49,21 @@ public abstract class BasePageClass {
         LoggerUtils.log.trace("getWebElement(" + locator + ", " + timeout + ")");
         WebDriverWait wait = getWebDriverWait(timeout);
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    protected WebElement getWebElement(By locator, int timeout, int pollingTime) {
+        LoggerUtils.log.trace("getWebElement(" + locator + ", " + timeout + ", " + pollingTime + ")");
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(timeout))
+                .pollingEvery(Duration.ofSeconds(pollingTime))
+                .ignoring(NoSuchElementException.class);
+        WebElement element  = wait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver webDriver) {
+                return driver.findElement(locator);
+            }
+        });
+        return element;
     }
 
     protected List<WebElement> getWebElements(By locator) {
@@ -258,6 +272,28 @@ public abstract class BasePageClass {
         wait.until(ExpectedConditions.urlContains(url));
     }
 
+    /*
+    protected void waitUntilPageIsReady(int timeout) {
+        LoggerUtils.log.trace("waitUntilPageIsReady(" + timeout + ")");
+        WebDriverWait wait = getWebDriverWait(timeout);
+        wait.until(new Function<WebDriver, Boolean>() {
+            public Boolean apply (WebDriver driver) {
+                JavascriptExecutor js = (JavascriptExecutor)  driver;
+                return js.executeScript("return document.readyState").equals("complete");
+            }
+        });
+    }
+    */
+
+    protected void waitUntilPageIsReady(int timeout) {
+        LoggerUtils.log.trace("waitUntilPageIsReady(" + timeout + ")");
+        WebDriverWait wait = getWebDriverWait(timeout);
+        wait.until(driver -> {
+            JavascriptExecutor js = (JavascriptExecutor)  driver;
+            return js.executeScript("return document.readyState").equals("complete");
+        });
+    }
+
     protected void waitForUrlChangeToExactUrl(String url, int timeout) {
         LoggerUtils.log.trace("waitForUrlChangeToExactUrl(" + url + ", " + timeout + ")");
         WebDriverWait wait = getWebDriverWait(timeout);
@@ -362,5 +398,32 @@ public abstract class BasePageClass {
         Assert.assertTrue(isDropDownListEnabled(dropDown), "DropDownList " + dropDown + " is NOT Enabled");
         Select options = new Select(dropDown);
         options.selectByVisibleText(option);
+    }
+
+    protected void moveMouseToWebElement(WebElement element) {
+        LoggerUtils.log.trace("moveMouseToWebElement(" + element + ")");
+        Actions action = new Actions(driver);
+        action.moveToElement(element).perform();
+    }
+
+    protected void doDragAndDrop(WebElement source, WebElement destination) {
+        LoggerUtils.log.trace("doDragAndDrop(" + source + ", " + destination + ")");
+        Actions action = new Actions(driver);
+        action.dragAndDrop(source, destination).perform();
+    }
+
+    protected void doDragAndDropJS(String sourceLocator, String destinationLocator) {
+        LoggerUtils.log.trace("doDragAndDropJS(" + sourceLocator + ", " + destinationLocator + ")");
+        JavaScriptUtils.simulateDragAndDrop(driver, sourceLocator, destinationLocator);
+    }
+
+    protected void switchToFrame(WebElement frame) {
+        LoggerUtils.log.trace("switchToFrame(" + frame + ")");
+        driver.switchTo().frame(frame);
+    }
+
+    protected void switchToDefaultContent() {
+        LoggerUtils.log.trace("switchToDefaultContent()");
+        driver.switchTo().defaultContent();
     }
 }

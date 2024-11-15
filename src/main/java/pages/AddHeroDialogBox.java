@@ -23,6 +23,7 @@ public class AddHeroDialogBox extends BasePageClass {
 
     public AddHeroDialogBox verifyAddHeroDialogBox() {
         LoggerUtils.log.debug("verifyAddHeroDialogBox()");
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         Assert.assertTrue(isAddHeroDialogBoxOpened(Time.TIME_SHORTER), "AddHero DialogBox is NOT opened!");
         return this;
     }

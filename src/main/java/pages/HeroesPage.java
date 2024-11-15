@@ -39,6 +39,7 @@ public class HeroesPage extends CommonLoggedInPageClass {
     public HeroesPage verifyHeroesPage() {
         LoggerUtils.log.debug("verifyHeroesPage()");
         waitForUrlChange(HEROES_PAGE_URL, Time.TIME_SHORTER);
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 

@@ -19,6 +19,7 @@ public class AddUserDialogBox extends BasePageClass {
 
     public AddUserDialogBox verifyAddUserDialogBox() {
         LoggerUtils.log.debug("verifyAddUserDialogBox()");
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         Assert.assertTrue(isAddUserDialogBoxOpened(Time.TIME_SHORTER), "AddUser DialogBox is NOT opened!");
         return this;
     }

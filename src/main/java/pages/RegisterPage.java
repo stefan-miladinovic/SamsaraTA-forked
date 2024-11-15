@@ -91,6 +91,7 @@ public class RegisterPage extends CommonLoggedOutPageClass {
     public RegisterPage verifyRegisterPage() {
         LoggerUtils.log.debug("verifyRegisterPage()");
         waitForUrlChange(REGISTER_PAGE_URL, Time.TIME_SHORTER);
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 

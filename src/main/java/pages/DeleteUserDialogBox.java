@@ -20,6 +20,7 @@ public class DeleteUserDialogBox extends BasePageClass {
 
     public DeleteUserDialogBox verifyDeleteUserDialogBox() {
         LoggerUtils.log.debug("verifyDeleteUserDialogBox()");
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         Assert.assertTrue(isDeleteUserDialogBoxOpened(Time.TIME_SHORTER), "DeleteUser DialogBox is NOT opened!");
         return this;
     }

@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 import utils.LoggerUtils;
 
 public class AdminPage extends CommonLoggedInPageClass {
@@ -39,6 +38,7 @@ public class AdminPage extends CommonLoggedInPageClass {
     public AdminPage verifyAdminPage() {
         LoggerUtils.log.debug("verifyAdminPage()");
         waitForUrlChange(ADMIN_PAGE_URL, Time.TIME_SHORTER);
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 

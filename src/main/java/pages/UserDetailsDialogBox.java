@@ -40,6 +40,7 @@ public class UserDetailsDialogBox extends BasePageClass {
 
     public UserDetailsDialogBox verifyUserDetailsDialogBox() {
         LoggerUtils.log.debug("verifyUserDetailsDialogBox()");
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         Assert.assertTrue(isUserDetailsDialogBoxOpened(Time.TIME_SHORTER), "UserDetails DialogBox is NOT opened!");
         return this;
     }

@@ -30,8 +30,7 @@ public class WelcomePage extends CommonLoggedInPageClass {
     public WelcomePage verifyWelcomePage() {
         LoggerUtils.log.debug("verifyWelcomePage()");
         waitForUrlChangeToExactUrl(WELCOME_PAGE_URL, Time.TIME_SHORTER);
-        // wait for dom structure to be completed
-        // wait/check the presence of specific/problematic web element
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         return this;
     }
 }

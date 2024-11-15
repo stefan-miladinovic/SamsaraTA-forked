@@ -19,6 +19,7 @@ public class UserHeroesDialogBox extends BasePageClass {
 
     public UserHeroesDialogBox verifyUserHeroesDialogBox() {
         LoggerUtils.log.debug("verifyUserHeroesDialogBox()");
+        waitUntilPageIsReady(Time.TIME_SHORTER);
         Assert.assertTrue(isUserHeroesDialogBoxOpened(Time.TIME_SHORTER), "UserHeroes DialogBox is NOT opened!");
         return this;
     }
