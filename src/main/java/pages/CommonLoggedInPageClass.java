@@ -162,4 +162,32 @@ public abstract class CommonLoggedInPageClass extends CommonPageClass {
         AdminPage adminPage = new AdminPage(driver);
         return adminPage.verifyAdminPage();
     }
+
+    public boolean isProfileLinkDisplayed() {
+        LoggerUtils.log.debug("isProfileLinkDisplayed()");
+        return isWebElementDisplayed(profileLinkLocator);
+    }
+
+    public boolean isProfileLinkEnabled() {
+        LoggerUtils.log.debug("isProfileLinkEnabled()");
+        Assert.assertTrue(isProfileLinkDisplayed(), "Profile Link is NOT displayed on Navigation Bar!");
+        WebElement profileLink = getWebElement(profileLinkLocator);
+        return isWebElementEnabled(profileLink);
+    }
+
+    public String getProfileLinkTitle() {
+        LoggerUtils.log.debug("getProfileLinkTitle()");
+        Assert.assertTrue(isProfileLinkDisplayed(), "Profile Link is NOT displayed on Navigation Bar!");
+        WebElement profileLink = getWebElement(profileLinkLocator);
+        return getTextFromWebElement(profileLink);
+    }
+
+    public ProfilePage clickProfileLink() {
+        LoggerUtils.log.debug("clickProfileLink()");
+        Assert.assertTrue(isProfileLinkEnabled(), "Profile Link is NOT enabled on Navigation Bar!");
+        WebElement profileLink = getWebElement(profileLinkLocator);
+        clickOnWebElement(profileLink);
+        ProfilePage profilePage = new ProfilePage(driver);
+        return profilePage.verifyProfilePage();
+    }
 }

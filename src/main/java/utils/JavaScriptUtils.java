@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 public class JavaScriptUtils {
 
     private static final String sDragAndDropJavaScriptFilePath = "javascript/drag-and-drop_simulator.js";
+    private static final String sDragAndDropJavaScriptFilePath2 = "javascript/drag-and-drop_helper.js";
 
     private static String loadJavaScriptFile(String sFilePath) {
         String sJavaScript;
@@ -58,6 +59,14 @@ public class JavaScriptUtils {
         LoggerUtils.log.trace("simulateDragAndDrop()");
         String sJavaScript = loadJavaScriptFile(sDragAndDropJavaScriptFilePath);
         sJavaScript = sJavaScript + "DndSimulator.simulate('" + sourceLocator + "', '" + destinationLocator + "')";
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(sJavaScript);
+    }
+
+    public static void simulateDragAndDrop2(WebDriver driver, String sourceLocator, String destinationLocator) {
+        LoggerUtils.log.trace("simulateDragAndDrop2()");
+        String sJavaScript = loadJavaScriptFile(sDragAndDropJavaScriptFilePath2);
+        sJavaScript = sJavaScript + "$('" + sourceLocator + "').simulateDragDrop({ dropTarget: '" + destinationLocator + "'});";
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(sJavaScript);
     }

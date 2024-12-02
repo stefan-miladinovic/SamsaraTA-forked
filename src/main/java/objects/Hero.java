@@ -140,6 +140,10 @@ public class Hero {
         return new Hero(sHeroName, sUsername);
     }
 
+    public static Hero createHero(String heroName, String heroClass, int heroLevel, String username, Date createdAt) {
+        return new Hero(heroName, heroClass, heroLevel, username, createdAt);
+    }
+
     @Override
     public String toString() {
         return "Hero {"

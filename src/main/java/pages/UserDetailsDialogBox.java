@@ -57,6 +57,39 @@ public class UserDetailsDialogBox extends BasePageClass {
         return isWebElementInvisible(userDetailsDialogBox, timeout);
     }
 
+    public boolean isUsernameDisplayed() {
+        LoggerUtils.log.debug("isUsernameDisplayed()");
+        return isWebElementDisplayed(usernameText);
+    }
+
+    public String getUsername() {
+        LoggerUtils.log.debug("getUsername()");
+        Assert.assertTrue(isUsernameDisplayed(), "Username is NOT displayed on UserDetails Dialog Box!");
+        return getTextFromWebElement(usernameText);
+    }
+
+    public boolean isFirstNameDisplayed() {
+        LoggerUtils.log.debug("isFirstNameDisplayed()");
+        return isWebElementDisplayed(firstNameText);
+    }
+
+    public String getFirstName() {
+        LoggerUtils.log.debug("getFirstName()");
+        Assert.assertTrue(isFirstNameDisplayed(), "First Name is NOT displayed on UserDetails Dialog Box!");
+        return getTextFromWebElement(firstNameText);
+    }
+
+    public boolean isLastNameDisplayed() {
+        LoggerUtils.log.debug("isLastNameDisplayed()");
+        return isWebElementDisplayed(lastNameText);
+    }
+
+    public String getLastName() {
+        LoggerUtils.log.debug("getLastName()");
+        Assert.assertTrue(isLastNameDisplayed(), "Last Name is NOT displayed on UserDetails Dialog Box!");
+        return getTextFromWebElement(lastNameText);
+    }
+
     public boolean isCreatedAtDateDisplayed() {
         LoggerUtils.log.debug("isCreatedAtDateDisplayed()");
         return isWebElementDisplayed(createdAtText);
@@ -67,12 +100,27 @@ public class UserDetailsDialogBox extends BasePageClass {
         return getTextFromWebElement(createdAtText);
     }
 
-    // TODO: Implement comparing time zones in case of remote machines
     public Date getCreatedAtDate() {
         String sDateTime = getCreatedAtString();
-        String sPattern = "dd.MM.yyyy. HH:mm";
+        LoggerUtils.log.info("Created At String: " + sDateTime);
+        sDateTime = sDateTime + " " + DateTimeUtils.getBrowserTimeZone(driver);
+        LoggerUtils.log.info("Created At String with TimeZone: " + sDateTime);
+        // "06.06.2019. 12:03" + " " + "PST"
+        String sPattern = "dd.MM.yyyy. HH:mm z";
         Date date = DateTimeUtils.getParsedDateTime(sDateTime, sPattern);
+        LoggerUtils.log.info("Created At Date: " + date);
         return date;
+    }
+
+    public boolean isAboutTextDisplayed() {
+        LoggerUtils.log.debug("isAboutTextDisplayed()");
+        return isWebElementDisplayed(aboutText);
+    }
+
+    public String getAboutText() {
+        LoggerUtils.log.debug("getAboutText()");
+        Assert.assertTrue(isAboutTextDisplayed(), "About Text is NOT displayed on UserDetails Dialog Box!");
+        return getTextFromWebElement(aboutText);
     }
 
     public boolean isCloseButtonDisplayed() {

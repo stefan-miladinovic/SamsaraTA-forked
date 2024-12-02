@@ -132,6 +132,14 @@ public class PropertiesUtils {
         return getProperty("adminPassword");
     }
 
+    public static String getRootUsername() {
+        return getProperty("rootUsername");
+    }
+
+    public static String getRootPassword() {
+        return getProperty("rootPassword");
+    }
+
     public static String getDriversFolder() {
         return getProperty("driversFolder");
     }
@@ -160,4 +168,56 @@ public class PropertiesUtils {
         }
         return Boolean.parseBoolean(sTakeScreenshots);
     }
+
+    private static String getLocalDataSourceUrl() {
+        return getProperty("localDataSourceUrl");
+    }
+
+    private static String getTestDataSourceUrl() {
+        return getProperty("testDataSourceUrl");
+    }
+
+    private static String getStageDataSourceUrl() {
+        return getProperty("stageDataSourceUrl");
+    }
+
+    private static String getProdDataSourceUrl() {
+        return getProperty("prodDataSourceUrl");
+    }
+
+    public static String getDataSourceUrl() {
+        String sEnvironment = getEnvironment().toLowerCase();
+        return getDataSourceUrl(sEnvironment);
+    }
+
+    public static String getDataSourceUrl(String sEnvironment) {
+        String sDataSourceUrl = null;
+        switch (sEnvironment) {
+            case "local" : {
+                sDataSourceUrl = getLocalDataSourceUrl();
+                break;
+            }
+            case "test" : {
+                sDataSourceUrl = getTestDataSourceUrl();
+                break;
+            }
+            case "stage" : {
+                sDataSourceUrl = getStageDataSourceUrl();
+                break;
+            }
+            case "prod" : {
+                sDataSourceUrl = getProdDataSourceUrl();
+                break;
+            }
+            default : {
+                Assert.fail("Cannot get DataSourceUrl! Environment '" + sEnvironment + "' is not recognized!");
+            }
+        }
+        return sDataSourceUrl;
+    }
+
+    public static String getDatabaseDriver() {
+        return getProperty("databaseDriver");
+    }
+
 }

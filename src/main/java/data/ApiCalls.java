@@ -15,15 +15,24 @@ public final class ApiCalls {
         return BASE_URL + CHECK_IF_USER_EXISTS + sUsername;
     }
 
+    public static String createDeleteUserApiCallRelativePath(String sUsername) {
+        return DELETE_USER + sUsername;
+    }
     public static String createDeleteUserApiCall(String sUsername) {
-        return BASE_URL + DELETE_USER + sUsername;
+        return BASE_URL + createDeleteUserApiCallRelativePath(sUsername);
     }
 
+    public static String createGetUserApiCallRelativePath(String sUsername) {
+        return GET_USER + sUsername;
+    }
     public static String createGetUserApiCall(String sUsername) {
-        return BASE_URL + GET_USER + sUsername;
+        return BASE_URL + createGetUserApiCallRelativePath(sUsername);
     }
 
+    public static String createPostUserApiCallRelativePath() {
+        return POST_USER;
+    }
     public static String createPostUserApiCall() {
-        return BASE_URL + POST_USER;
+        return BASE_URL + createPostUserApiCallRelativePath();
     }
 }

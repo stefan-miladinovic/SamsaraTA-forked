@@ -247,6 +247,14 @@ public class User {
         return new User(sUsername);
     }
 
+    public static User createUser(String username, String password, String email, String firstName, String lastName, String about, String secretQuestion, String secretAnswer, Date createdAt, List<Hero> heroes) {
+        return new User(username, password, email, firstName, lastName, about, secretQuestion, secretAnswer, createdAt, heroes);
+    }
+
+    public static User createUser(String username, String password, String email, String firstName, String lastName, String about, String secretQuestion, String secretAnswer) {
+        return new User(username, password, email, firstName, lastName, about, secretQuestion, secretAnswer);
+    }
+
     @Override
     public String toString() {
         return "User {"

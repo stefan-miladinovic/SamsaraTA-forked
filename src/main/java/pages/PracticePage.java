@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import utils.LoggerUtils;
+import utils.PropertiesUtils;
 
 public class PracticePage extends CommonLoggedInPageClass {
 
@@ -134,8 +135,12 @@ public class PracticePage extends CommonLoggedInPageClass {
     public PracticePage dragAndDropImage() {
         LoggerUtils.log.debug("dragAndDropImage()");
         Assert.assertTrue(isDraggableImageDisplayed(), "Draggable Image is NOT displayed on Practice Page!");
-        //doDragAndDrop(draggableImage, dropArea);
-        doDragAndDropJS(draggableImageLocatorString, dropAreaLocatorString);
+        String sBrowser = PropertiesUtils.getBrowser();
+        if (sBrowser.equals("firefox")) {
+            doDragAndDropJS(draggableImageLocatorString, dropAreaLocatorString);
+        } else {
+            doDragAndDrop(draggableImage, dropArea);
+        }
         PracticePage practicePage = new PracticePage(driver);
         return practicePage.verifyPracticePage();
     }

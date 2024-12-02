@@ -12,3 +12,16 @@ DELETE_USER_MESSAGE=Do you really want to delete user %USERNAME% (%FULL_NAME%)?
 
 # Practice Page
 USELESS_TOOLTIP_TEXT=This is one useless tooltip! Nevertheless, try to get its content!
+
+# API Errors
+API_ERROR_INTERNAL_SERVER_ERROR=Internal Server Error
+API_ERROR_FORBIDDEN=Forbidden
+
+# API Exceptions
+API_EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION=java.lang.IllegalArgumentException
+
+# API Messages
+API_MESSAGE_NON_EXISTING_USER=User '%USERNAME%' doesn't exist!
+API_MESSAGE_ALREADY_EXISTING_USER=User '%USERNAME%' already exists!
+API_MESSAGE_ACCESS_DENIED=Access is denied
+API_MESSAGE_EMAIL_NOT_SPECIFIED=Email is not specified!

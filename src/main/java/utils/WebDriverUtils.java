@@ -116,8 +116,12 @@ public class WebDriverUtils {
 
     public static void quitDriver(WebDriver driver) {
         LoggerUtils.log.debug("quitDriver()");
-        if(!hasDriverQuit(driver)) {
-            driver.quit();
+        try {
+            if(!hasDriverQuit(driver)) {
+                driver.quit();
+            }
+        } catch (AssertionError | Exception e) {
+            LoggerUtils.log.error("Exception occurred in quitDriver()! Message: " + e.getMessage());
         }
     }
 

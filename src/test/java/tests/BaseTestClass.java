@@ -2,10 +2,7 @@ package tests;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
-import utils.LoggerUtils;
-import utils.PropertiesUtils;
-import utils.ScreenShotUtils;
-import utils.WebDriverUtils;
+import utils.*;
 
 public abstract class BaseTestClass {
 
@@ -32,7 +29,7 @@ public abstract class BaseTestClass {
 
     protected void tearDown(WebDriver driver, ITestResult testResult) {
         String sTestName = testResult.getTestClass().getName();
-        String sFileName = sTestName + "_" + testResult.getEndMillis();
+        String sFileName = sTestName + "_" + DateTimeUtils.getDateTimeStamp();
         try {
             if(testResult.getStatus() == ITestResult.FAILURE && PropertiesUtils.getTakeScreenshots()) {
                 ScreenShotUtils.takeScreenShot(driver, sFileName);
@@ -42,6 +39,36 @@ public abstract class BaseTestClass {
         }
         finally {
             quitDriver(driver);
+        }
+    }
+
+    protected void tearDown(WebDriver driver, ITestResult testResult, int instance) {
+        String sTestName = testResult.getTestClass().getName();
+        String sFileName = sTestName + "_" + DateTimeUtils.getDateTimeStamp() + "_" + instance;
+        try {
+            if (testResult.getStatus() == ITestResult.FAILURE && PropertiesUtils.getTakeScreenshots()) {
+                ScreenShotUtils.takeScreenShot(driver, sFileName);
+            }
+        } catch (AssertionError | Exception e) {
+            LoggerUtils.log.error("Exception occurred in tearDown(" + sTestName + ", " + instance + ")! Message: " + e.getMessage());
+        } finally {
+            quitDriver(driver);
+        }
+    }
+
+    protected void tearDown(WebDriver[] drivers, ITestResult testResult) {
+        String sTestName = testResult.getTestClass().getName();
+        String sFileName = sTestName + "_" + DateTimeUtils.getDateTimeStamp();
+        for(int i = 0; i < drivers.length; i++) {
+            try {
+                if(testResult.getStatus() == ITestResult.FAILURE && PropertiesUtils.getTakeScreenshots()) {
+                    ScreenShotUtils.takeScreenShot(drivers[i], sFileName + "_" + (i+1));
+                }
+            } catch (AssertionError | Exception e) {
+                LoggerUtils.log.error("Exception occurred in tearDown(" + sTestName + ") for driver " + (i+1) + "! Message: " + e.getMessage());
+            } finally {
+                quitDriver(drivers[i]);
+            }
         }
     }
 }
