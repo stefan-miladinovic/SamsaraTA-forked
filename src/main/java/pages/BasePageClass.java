@@ -185,6 +185,12 @@ public abstract class BasePageClass {
         }
     }
 
+    protected boolean isWebElementReadOnly(WebElement element) {
+        LoggerUtils.log.trace("isWebElementReadOnly(" + element + ")");
+        String sResult = getAttributeFromWebElement(element, "readonly");
+        return sResult != null;
+    }
+
     protected boolean isWebElementVisible(WebElement element, int timeout) {
         LoggerUtils.log.trace("isWebElementVisible(" + element + ", " + timeout + ")");
         try {
@@ -221,6 +227,29 @@ public abstract class BasePageClass {
     protected String getAttributeFromWebElement(WebElement element, String attribute) {
         LoggerUtils.log.trace("getAttributeFromWebElement(" + element + ", " + attribute + ")");
         return element.getAttribute(attribute);
+    }
+
+    protected void setAttributeToWebElement(WebElement element, String attribute, String value) {
+        LoggerUtils.log.trace("setAttributeToWebElement(" + element + ", " + attribute + ", " + value + ")");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // element.setAttribute('attribute_name', 'attribute_new_value')
+        String sJavaScript = "arguments[0].setAttribute('" + attribute + "' , '" + value + "')";
+        js.executeScript(sJavaScript, element);
+    }
+
+    protected void setCssStyleToWebElement(WebElement element, String styleName, String value) {
+        LoggerUtils.log.trace("setAttributeToWebElement(" + element + ", " + styleName + ", " + value + ")");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // element.style.visibility='visible'
+        String sJavaScript = "arguments[0].style." + styleName + "='" + value + "';";
+        js.executeScript(sJavaScript, element);
+    }
+
+    protected void removeAttributeFromWebElement(WebElement element, String attribute) {
+        LoggerUtils.log.trace("removeAttributeFromWebElement(" + element + ", " + attribute + ")");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String sJavaScript = "arguments[0].removeAttribute('" + attribute + "')";
+        js.executeScript(sJavaScript, element);
     }
 
     protected String getValueFromWebElement(WebElement element) {

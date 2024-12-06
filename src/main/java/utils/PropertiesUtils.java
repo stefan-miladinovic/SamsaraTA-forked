@@ -156,6 +156,10 @@ public class PropertiesUtils {
         return getProperty("screenshotsFolder");
     }
 
+    public static String getImagesFolder() {
+        return getProperty("imagesFolder");
+    }
+
     public static String getHubUrl() {
         return getProperty("hubUrl");
     }

@@ -107,6 +107,7 @@ public class UserDetailsDialogBox extends BasePageClass {
         LoggerUtils.log.info("Created At String with TimeZone: " + sDateTime);
         // "06.06.2019. 12:03" + " " + "PST"
         String sPattern = "dd.MM.yyyy. HH:mm z";
+        //String sPattern = "dd.MM.yyyy. HH:mm";
         Date date = DateTimeUtils.getParsedDateTime(sDateTime, sPattern);
         LoggerUtils.log.info("Created At Date: " + date);
         return date;

@@ -13,6 +13,9 @@ DELETE_USER_MESSAGE=Do you really want to delete user %USERNAME% (%FULL_NAME%)?
 # Practice Page
 USELESS_TOOLTIP_TEXT=This is one useless tooltip! Nevertheless, try to get its content!
 
+# Profile Page
+PROFILE_IMAGE_SAVED=Image saved!
+
 # API Errors
 API_ERROR_INTERNAL_SERVER_ERROR=Internal Server Error
 API_ERROR_FORBIDDEN=Forbidden

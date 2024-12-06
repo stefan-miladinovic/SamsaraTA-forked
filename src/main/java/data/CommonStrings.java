@@ -42,6 +42,11 @@ public final class CommonStrings {
         return getLocaleString("USELESS_TOOLTIP_TEXT");
     }
 
+    // Profile Page
+    public static String getProfileImageSavedMessage() {
+        return getLocaleString("PROFILE_IMAGE_SAVED");
+    }
+
     // DeleteUser DialogBox
     public static String getDeleteUserMessage(String sUsername, String sDisplayName) {
         return getLocaleString("DELETE_USER_MESSAGE").replace("%USERNAME%", sUsername).replace("%FULL_NAME%", sDisplayName);

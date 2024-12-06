@@ -37,6 +37,7 @@ public class DatabaseUtils {
     private static Connection openConnection() {
         Connection connection = null;
         try {
+            // Class.forName(DATABASE_DRIVER);
             // DbUtils.loadDriver(DATABASE_DRIVER);
             connection = DriverManager.getConnection(DATA_SOURCE_URL, ROOT_USERNAME, ROOT_PASSWORD);
         } catch (SQLException e) {
