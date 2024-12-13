@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
+import utils.FileUtils;
 import utils.LoggerUtils;
 
 public class AdminPage extends CommonLoggedInPageClass {
@@ -17,6 +19,9 @@ public class AdminPage extends CommonLoggedInPageClass {
 
     @FindBy(id="chuckNorris")
     private WebElement chuckNorrisCheckBox;
+
+    @FindBy(id="userDetails")
+    private WebElement downloadUserDetailsButton;
 
     public AdminPage(WebDriver driver) {
         super(driver);
@@ -69,5 +74,30 @@ public class AdminPage extends CommonLoggedInPageClass {
         uncheckCheckBox(chuckNorrisCheckBox);
         AdminPage adminPage = new AdminPage(driver);
         return adminPage.verifyAdminPage();
+    }
+
+    public boolean isDownloadUserDetailsButtonDisplayed() {
+        LoggerUtils.log.debug("isDownloadUserDetailsButtonDisplayed()");
+        return isWebElementDisplayed(downloadUserDetailsButton);
+    }
+
+    public boolean isDownloadUserDetailsButtonEnabled() {
+        LoggerUtils.log.debug("isDownloadUserDetailsButtonEnabled()");
+        Assert.assertTrue(isDownloadUserDetailsButtonDisplayed(), "Download User Details Button is NOT displayed on Admin Page!");
+        return isWebElementEnabled(downloadUserDetailsButton);
+    }
+
+    public AdminPage clickDownloadUserDetailsButton() {
+        LoggerUtils.log.debug("isDownloadUserDetailsButtonEnabled()");
+        Assert.assertTrue(isDownloadUserDetailsButtonEnabled(), "Download User Details Button is NOT enabled on Admin Page!");
+        clickOnWebElement(downloadUserDetailsButton);
+        return this;
+    }
+
+    public String downloadUserDetailsFile() {
+        LoggerUtils.log.debug("downloadUserDetailsFile()");
+        Assert.assertTrue(isDownloadUserDetailsButtonEnabled(), "Download User Details Button is NOT enabled on Admin Page!");
+        String href = getAttributeFromWebElement(downloadUserDetailsButton, "href");
+        return FileUtils.downloadFile(driver, href);
     }
 }

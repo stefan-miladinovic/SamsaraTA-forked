@@ -132,6 +132,14 @@ public class PropertiesUtils {
         return getProperty("adminPassword");
     }
 
+    public static String getAdminGmailAccount() {
+        return getProperty("adminGmailAccount");
+    }
+
+    public static String getAdminGmailPassword() {
+        return getProperty("adminGmailPassword");
+    }
+
     public static String getRootUsername() {
         return getProperty("rootUsername");
     }
@@ -142,6 +150,10 @@ public class PropertiesUtils {
 
     public static String getDriversFolder() {
         return getProperty("driversFolder");
+    }
+
+    public static String getFilesFolder() {
+        return getProperty("filesFolder");
     }
 
     public static String getDefaultSecretQuestion() {

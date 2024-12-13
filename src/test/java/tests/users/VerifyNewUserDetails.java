@@ -1,4 +1,4 @@
-package tests.login;
+package tests.users;
 
 import data.Groups;
 import data.Time;

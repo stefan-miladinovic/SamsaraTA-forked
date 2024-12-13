@@ -1,6 +1,7 @@
 package utils;
 
 import data.Time;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +17,8 @@ import org.testng.Assert;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Set;
 
 public class WebDriverUtils {
 
@@ -39,10 +42,17 @@ public class WebDriverUtils {
             switch (sBrowser) {
                 case "chrome": {
                     ChromeOptions options = new ChromeOptions();
+
+                    HashMap<String, Object> prefs = new HashMap<>();
+                    prefs.put("download.default_directory", PropertiesUtils.getFilesFolder());
+                    prefs.put("safebrowsing.enabled", "false");
+                    options.setExperimentalOption("prefs", prefs);
+
                     if (bHeadless) {
                         //options.setHeadless(bHeadless);
                         options.addArguments("--headless=new");
                     }
+
                     if (bRemote) {
                         RemoteWebDriver remoteDriver = new RemoteWebDriver(new URL(sHubUrl), options);
                         remoteDriver.setFileDetector(new LocalFileDetector());
@@ -131,5 +141,16 @@ public class WebDriverUtils {
 
     public static void setImplicitWait(WebDriver driver, int timeout) {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
+    }
+
+    public static String getCookies(WebDriver driver) {
+        Set<Cookie> cookies = driver.manage().getCookies();
+        LoggerUtils.log.info("COOKIE SET: " + cookies);
+        StringBuilder sCookies = new StringBuilder();
+        // cookieName1=cookieValue2;cookieName2=cookieName2;......
+        for(Cookie cookie : cookies) {
+            sCookies.append(cookie.getName()).append("=").append(cookie.getValue()).append(";");
+        }
+        return sCookies.toString();
     }
 }

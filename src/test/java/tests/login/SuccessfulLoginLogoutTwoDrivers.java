@@ -20,7 +20,7 @@ import utils.LoggerUtils;
 import utils.PropertiesUtils;
 import utils.RestApiUtils;
 
-@Test(groups = {Groups.REGRESSION, Groups.SANITY, Groups.LOGIN})
+@Test
 public class SuccessfulLoginLogoutTwoDrivers extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();
