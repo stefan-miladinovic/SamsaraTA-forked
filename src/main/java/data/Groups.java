@@ -6,6 +6,8 @@ public final class Groups {
     public static final String SANITY = "sanity";
     public static final String API = "api";
     public static final String EMAIL = "email";
+    public static final String MOUSE = "mouse";
+    public static final String PROFILE = "profile";
     public static final String DATABASE = "database";
     public static final String EVALUATION = "evaluation";
 

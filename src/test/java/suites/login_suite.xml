@@ -2,7 +2,6 @@
 <!-- The set of sanity tests to execute on the system -->
 
 <suite name="Login Suite" parallel="methods" thread-count="4">
-
     <test name="Login Tests">
         <groups>
             <run>

@@ -1,5 +1,6 @@
 package tests.practice;
 
+import data.Groups;
 import data.Time;
 import objects.User;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,8 @@ import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.RestApiUtils;
 
+
+@Test(groups = {Groups.REGRESSION, Groups.MOUSE})
 public class VerifyDragAndDrop extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();

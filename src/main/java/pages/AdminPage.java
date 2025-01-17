@@ -88,7 +88,7 @@ public class AdminPage extends CommonLoggedInPageClass {
     }
 
     public AdminPage clickDownloadUserDetailsButton() {
-        LoggerUtils.log.debug("isDownloadUserDetailsButtonEnabled()");
+        LoggerUtils.log.debug("clickDownloadUserDetailsButton()");
         Assert.assertTrue(isDownloadUserDetailsButtonEnabled(), "Download User Details Button is NOT enabled on Admin Page!");
         clickOnWebElement(downloadUserDetailsButton);
         return this;

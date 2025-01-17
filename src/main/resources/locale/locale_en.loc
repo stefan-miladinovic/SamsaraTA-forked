@@ -28,3 +28,8 @@ API_MESSAGE_NON_EXISTING_USER=User '%USERNAME%' doesn't exist!
 API_MESSAGE_ALREADY_EXISTING_USER=User '%USERNAME%' already exists!
 API_MESSAGE_ACCESS_DENIED=Access is denied
 API_MESSAGE_EMAIL_NOT_SPECIFIED=Email is not specified!
+
+# EMAIL
+EMAIL_SUBJECT_USER_REGISTERED=User '%USERNAME%' registered
+EMAIL_BODY_USER_REGISTERED=A new user with the username '%USERNAME%' was registered.
+EMAIL_USELESS_ATTACHMENT_TEXT=This is one useless attachment!

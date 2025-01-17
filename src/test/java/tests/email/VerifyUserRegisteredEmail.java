@@ -3,6 +3,7 @@ package tests.email;
 import data.CommonStrings;
 import data.Groups;
 import data.Time;
+import objects.EmailMessage;
 import objects.User;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -11,13 +12,11 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.LoginPage;
 import pages.RegisterPage;
 import tests.BaseTestClass;
-import utils.DateTimeUtils;
-import utils.LoggerUtils;
-import utils.PropertiesUtils;
-import utils.RestApiUtils;
+import utils.*;
 
 @Test(groups = {Groups.REGRESSION, Groups.REGISTER, Groups.USERS, Groups.EMAIL})
 public class VerifyUserRegisteredEmail extends BaseTestClass {
@@ -29,6 +28,8 @@ public class VerifyUserRegisteredEmail extends BaseTestClass {
 
     private String sAdminGmailAccount;
     private String sAdminGmailPassword;
+
+    private EmailConnection connection = null;
 
     private boolean bCreated;
 
@@ -47,6 +48,11 @@ public class VerifyUserRegisteredEmail extends BaseTestClass {
     @Test
     public void test() {
         LoggerUtils.log.debug("[START TEST] " + sTestName);
+
+        String sExpectedEmailSubject = CommonStrings.getEmailSubjectUserRegistered(user.getUsername());
+        String sExpectedEmailBody= CommonStrings.getEmailBodyUserRegistered(user.getUsername());
+        String sExpectedAttachmentName = "useless_attachment.txt";
+        String sExpectedAttachmentText = CommonStrings.getEmailUselessAttachmentText();
 
         String sExpectedRegisterSuccessMessage = CommonStrings.getRegisterSuccessMessage();
 
@@ -74,7 +80,26 @@ public class VerifyUserRegisteredEmail extends BaseTestClass {
 
         String sRegisterSuccessMessage = loginPage.getSuccessMessage();
         Assert.assertEquals(sRegisterSuccessMessage, sExpectedRegisterSuccessMessage, "Wrong Success Message");
+        DateTimeUtils.wait(Time.TIME_SHORT);
 
+        // Establish Connection
+        connection = EmailConnection.createEmailConnection(sAdminGmailAccount, sAdminGmailPassword);
+
+        // Get Email Message
+        EmailMessage message = connection.getLastMessage(null, sAdminGmailAccount, user.getUsername(), null, null);
+
+        // Verify Email Details
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(message.getSubject(), sExpectedEmailSubject, "Wrong Email Subject!");
+        softAssert.assertEquals(message.getBody(), sExpectedEmailBody, "Wrong Email Body!");
+        softAssert.assertEquals(message.getAttachmentsCount(), 1, "Wrong number of Attachments!");
+        softAssert.assertTrue(message.isAttachmentPresent(sExpectedAttachmentName), "Attachment '" + sExpectedAttachmentName + "' is NOT present!");
+        softAssert.assertAll("Wrong Email Details!");
+
+        // Download Attachment and Verify Attachment Content
+        String sFilePath = message.downloadAttachment(sExpectedAttachmentName);
+        String sAttachmentText = FileUtils.readTextFile(sFilePath);
+        Assert.assertEquals(sAttachmentText, sExpectedAttachmentText, "Wrong Attachment Text!");
     }
 
     @AfterMethod(alwaysRun = true)
@@ -82,16 +107,19 @@ public class VerifyUserRegisteredEmail extends BaseTestClass {
         LoggerUtils.log.debug("[END TEST] " + sTestName);
         tearDown(driver, testResult);
         if(bCreated) {
-            cleanUp();
+            deleteUser();
+        }
+        if(connection != null) {
+            connection.closeEmailConnection();
         }
     }
 
-    private void cleanUp() {
-        LoggerUtils.log.debug("cleanUp()");
+    private void deleteUser() {
+        LoggerUtils.log.debug("deleteUser()");
         try {
             RestApiUtils.deleteUser(user.getUsername());
         } catch (AssertionError | Exception e) {
-            LoggerUtils.log.error("Cleaning Up Failed! Message: " + e.getMessage());
+            LoggerUtils.log.error("Delete User Failed! Message: " + e.getMessage());
         }
     }
 }

@@ -9,6 +9,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
@@ -65,6 +66,15 @@ public class WebDriverUtils {
                 }
                 case "firefox": {
                     FirefoxOptions options = new FirefoxOptions();
+
+                    FirefoxProfile profile = new FirefoxProfile();
+                    // 0 - Desktop, 1 - Downloads folder,  2 - Most recent download location
+                    profile.setPreference("browser.download.folderList", 2);
+                    profile.setPreference("browser.download.dir", PropertiesUtils.getFilesFolder());
+                    profile.setPreference("browser.download.manager.showWhenStarting", false);
+                    profile.setPreference("browser.helperApps.neverAsk.saveToDisk","text/csv,application/zip");
+                    options.setProfile(profile);
+
                     if (bHeadless) {
                         options.addArguments("--headless");
                     }

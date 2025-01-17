@@ -78,4 +78,15 @@ public final class CommonStrings {
     public static String getApiMessageEmailNotSpecified() {
         return getLocaleString("API_MESSAGE_EMAIL_NOT_SPECIFIED");
     }
+
+    // Email
+    public static String getEmailSubjectUserRegistered(String sUsername) {
+        return getLocaleString("EMAIL_SUBJECT_USER_REGISTERED").replace("%USERNAME%", sUsername);
+    }
+    public static String getEmailBodyUserRegistered(String sUsername) {
+        return getLocaleString("EMAIL_BODY_USER_REGISTERED").replace("%USERNAME%", sUsername);
+    }
+    public static String getEmailUselessAttachmentText() {
+        return getLocaleString("EMAIL_USELESS_ATTACHMENT_TEXT");
+    }
 }

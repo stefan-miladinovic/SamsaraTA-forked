@@ -1,6 +1,7 @@
 package tests.profile;
 
 import data.CommonStrings;
+import data.Groups;
 import data.Time;
 import objects.User;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ import utils.DateTimeUtils;
 import utils.LoggerUtils;
 import utils.RestApiUtils;
 
+@Test(groups = {Groups.REGRESSION, Groups.PROFILE})
 public class VerifyProfileImage extends BaseTestClass {
 
     private final String sTestName = this.getClass().getName();
