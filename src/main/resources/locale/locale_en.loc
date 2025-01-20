@@ -6,30 +6,3 @@ LOGIN_PAGE_TITLE=Samsara
 LOGIN_ERROR_MESSAGE=Invalid username and/or password.
 LOGOUT_SUCCESS_MESSAGE=You have been logged out.
 REGISTER_SUCCESS_MESSAGE=You have successfully registered on Samsara.
-
-# DeleteUser DialogBox
-DELETE_USER_MESSAGE=Do you really want to delete user %USERNAME% (%FULL_NAME%)?
-
-# Practice Page
-USELESS_TOOLTIP_TEXT=This is one useless tooltip! Nevertheless, try to get its content!
-
-# Profile Page
-PROFILE_IMAGE_SAVED=Image saved!
-
-# API Errors
-API_ERROR_INTERNAL_SERVER_ERROR=Internal Server Error
-API_ERROR_FORBIDDEN=Forbidden
-
-# API Exceptions
-API_EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION=java.lang.IllegalArgumentException
-
-# API Messages
-API_MESSAGE_NON_EXISTING_USER=User '%USERNAME%' doesn't exist!
-API_MESSAGE_ALREADY_EXISTING_USER=User '%USERNAME%' already exists!
-API_MESSAGE_ACCESS_DENIED=Access is denied
-API_MESSAGE_EMAIL_NOT_SPECIFIED=Email is not specified!
-
-# EMAIL
-EMAIL_SUBJECT_USER_REGISTERED=User '%USERNAME%' registered
-EMAIL_BODY_USER_REGISTERED=A new user with the username '%USERNAME%' was registered.
-EMAIL_USELESS_ATTACHMENT_TEXT=This is one useless attachment!

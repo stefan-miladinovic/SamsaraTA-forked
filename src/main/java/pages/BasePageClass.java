@@ -6,7 +6,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
-import utils.JavaScriptUtils;
 import utils.LoggerUtils;
 import utils.PropertiesUtils;
 import utils.WebDriverUtils;
@@ -19,10 +18,15 @@ import java.util.function.Function;
 public abstract class BasePageClass {
 
     protected WebDriver driver;
+    private static String BASE_URL = PropertiesUtils.getBaseUrl();
 
     protected BasePageClass(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+    }
+
+    public static String getBaseUrl() {
+        return BASE_URL;
     }
 
     protected String getPageUrl(String sPath) {
@@ -439,11 +443,6 @@ public abstract class BasePageClass {
         LoggerUtils.log.trace("doDragAndDrop(" + source + ", " + destination + ")");
         Actions action = new Actions(driver);
         action.dragAndDrop(source, destination).perform();
-    }
-
-    protected void doDragAndDropJS(String sourceLocator, String destinationLocator) {
-        LoggerUtils.log.trace("doDragAndDropJS(" + sourceLocator + ", " + destinationLocator + ")");
-        JavaScriptUtils.simulateDragAndDrop(driver, sourceLocator, destinationLocator);
     }
 
     protected void switchToFrame(WebElement frame) {
